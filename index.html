@@ -1,198 +1,270 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<link rel="icon" href="assets/facivon.png">
-    		<meta name="viewport" content="width=device-width, initial-scale=1">
-    		<title>Neel Redkar</title>
-    		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-    		<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	</head>
-	<body>
-<style>
-	@media only screen and (min-width: 769px) {
-		.cutter {
-			clip-path: polygon(0 0, 100% 0, 100% 77%, 0 100%);
+
+<head>
+	<meta charset="utf-8">
+	<link rel="icon" href="assets/facivon.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Neel Redkar</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+	<style>
+		@media only screen and (min-width: 769px) {
+			.cutter {
+				clip-path: polygon(0 0, 100% 0, 100% 77%, 0 100%);
+			}
 		}
-	}
-	.img-center {
-		margin-left:auto !important;
-		margin-right:auto !important;
-	}
-</style>
-		<section class="hero is-dark is-medium cutter is-bold">
-			<div class="hero-body has-text-centered">
-				<div class="columns">
-					<div class="column is-one-third">
-						<figure class="imag">
-							<img style="height:200px !important;border-radius:30%;" src="https://dvpc.tk/assets/portrait.jpg">
-						</figure>
-					</div>
-					<div class="column is-half">
-						<div class="column body has-text-centered">
-							<h1 class="title is-1">Neel Redkar</h1>
-							<h1 class="subtitle">9th grader at DVHS</h1>
-							<h1 class="title is-6">Full Stack Developer</h1>
-							<h1 id="desc"></h1>
-							<h1 id="source"></h1>
-						</div>
-					</div>
-				</div>
+
+		.img-center {
+			margin-left: auto !important;
+			margin-right: auto !important;
+		}
+	</style>
+	<nav class="navbar is-fixed-top" style="background-color:rgba(255, 0, 0, 0)">
+		<div class="navbar-end">
+			<div class="navbar-item">
+				<a class="button is-link" href="./projects/">My Projects</a>
 			</div>
-		</section>
-		<section class="hero">
-			<div class="hero-body">
-				<div class="columns">
-					<div class="column is-1"></div>
-					<div class="column is-one-third" >
-						<div class="column-body">
-						<h1 class="title">Who am I?</h1>
-						 <p>Hi, I am a student in 9th grade who goes to DVHS or Dougherty Valley High School. I love to program and create new things that help other people. Some languages I know include, Python, JavaScript, HTML, CSS, Node.js, and Swift. These are used for various things including websites, apps, and servers. I also love math, science, and competitive debate!</p>	
-						</div>
-					</div>
+		</div>
+	</nav>
+	<section class="hero is-dark is-medium cutter is-bold">
+		<div class="hero-body has-text-centered">
+			<div class="columns">
+				<div class="column is-one-third">
+					<figure class="imag">
+						<img style="height:200px !important;border-radius:30%;"
+							src="https://dvpc.tk/assets/portrait.jpg">
+					</figure>
 				</div>
-			</div>
-		</section>
-		<section class="hero is-info">
-			<div class="hero-body has-text-centered">
-				<h1 class="title">Events!</h1>
-				<p>Events throughout the years I have gone to or organized</p>
-				<div class="columns is-multiline" style="padding:15px;">
-					<div class="column is-6">
-						<div class="box">
-							<h1 class="title is-3 has-text-dark">Flagship Summit</h1>
-							<figure class="image">
-								<img class="img-center is-rounded" style="padding:15px;height:200px;width:350px;" src="https://lh3.googleusercontent.com/y7HEE5d__u3WwUGswEITusRW1vBKiDd1Q5Abl2_DZRgupmX145Z8ZJ0BzO36W-31HdoL5DPfmj_-Xe7LzvdzNdEgLCFyEdVy9hIbSIEWLF0KvCsifdbQo9Xvf4-tQHlLaTqDk8y0MsNlKBP9bhDeMSP6oorAW0b2iEufdAUIfuO6lavOEFelf1f8-F-O4k3RqwPaWmYvCtW7-gYE9to6BBUpRBqTwPbIU9kDWLXtyKf_BQ4jxNDbbDfh3vLsaQ5nYappYkR-6lqfnfuyT5dSuaANU7GmuEwYaRJLQ6d785Hi1nj50XROTe6wXfGMi1rDcIsEoSvtrcr__E-Cqef3Cf9cl9XCBWpflQz2Qc9153-KrSDSni042S-I3x3DfVjPc_i3leeRHaE5xpvmKd_mUYZLUNmHEtU6jCg5OWJXzXSkzSMFf0-j2t_btEiPR1V3_y3miYroH5E41m9iiZF8j-CyzjL9rHMZ9nXNFcqLCjstILG6lejyjcleAIjDwVZN4SSBB2IpbejTo3ISXPlNKslbgWac4YA4hLY8NAL_8na3SWbgcjZd8AQYUVLJBy7EQPvLqRKTUt_omlKFWsAwjc7xYPYC1TvbPKw46I2J8TIgpbLys5MO2YzDhnFqyDCsXgjNqII_znKwedFpNtZ940dWKnHu5eXA-FjScUNJi2wLCd7LsZFooVrc5VyBRvAFkxp3txjHeG77LW7wwKg7ddlfcQ=w2130-h1420-no"
-							</figure>
-								<p>At flagship summit I met many people, and it was my first dive into the community of Hack Club. Hack Club is a global orginization of high school clubs who teach and spread the love of programming! At this leadership summit, I learnied how to teach other students, engage them in activities, organize a hackathon, and so much more. I also met many people, including the Co Founder of Github!</p>
-						</div>
+				<div class="column is-half">
+					<div class="column body has-text-centered">
+						<h1 class="title is-1">Neel Redkar</h1>
+						<h1 class="subtitle">9th grader at DVHS</h1>
+						<h1 class="title is-6">Full Stack Developer</h1>
+						<h1 id="desc"></h1>
+						<h1 id="source"></h1>
 					</div>
-					<div class="column is-6">
-                                                <div class="box">
-                                                        <h1 class="title is-3 has-text-dark">Nationals Debate</h1>
-                                                        <figure class="image">
-								<img src="assets/nats.JPG" class="img-center is-rounded" style="padding:15px;height:200px;width:300px;">
-                                                        </figure>
-								<p>Nationals for debate was great for me because I love debate and got to experience many high stakes debate rounds! After many weeks of preparing for nationals, I competed hard and ended up getting a 3-3 record! This not only helped me get better as a debater, but opened my eyes to the full debate community!</p>
-                                                </div>
-                                        </div>
-					<div class="column is-6">
-                                                <div class="box">
-							<h1 class="title is-3 has-text-dark">County and State Science Fair</h1>
-                                                        <figure class="image">
-                                                                <img src="https://smartrecycle.enenra.org/icon.png" class="img-center is-rounded" style="height:200px;width:200px;">
-                                                        </figure>                                                                
-							<p>The CCSEF or California Science and Engineering Fair or 2019 was a tranformative fair for me. In the past I have won many awards for science fair projects, but they were all based on the scientific method. This year, I tried to combine CS and Science Fair to try something new. So I took a problem, which was that people dont recycle, and tried to fix that! I created a machine learning app (that can be found in the app store) called SmartRecycle. This app uses machine learning to tell recycling, from trash, from compost! With this I got 1st in my county science fair, and second in states!</p>
-                                        		<div class="field is-grouped is-grouped-centered" style="padding:15px">
-								<div class="control">
-									<a class="button is-link" href="https://github.com/hacker719/recyclesmartapp">Source Code</a>
-								</div>
-								<div class="control">
-									<a class="button is-success" href="https://smartrecycle.enenra.org">Website</a>
-								</div>
-							</div>
-						</div>
-					</div>
-	                                  <div class="column is-6">
-                                                <div class="box">
-                                                        <h1 class="title is-3 has-text-dark">LaunchHacks</h1>
-                                                        <figure class="image">
-                                                                <img class="img-center" style="width:200px;height:200px;padding:15px;" src="https://raw.githubusercontent.com/BananiumLabs/LaunchHacksSite/master/img/logo-no-shadow.png">
-                                                        </figure>
-							<p>LaunchHacks, which was my first hackathon, was one of my first steps into entering the developer community! I made many friends, had a lot of fun, and learned how to take a product all the way to completion. For this hackathon, our team created a NLP bot that helped students with depression and how to get over it! You can check that out in my github at the footer. This also got me into hackathons and was my first time meeting people like me, who loved to code!</p>
-                                                </div>
-                                        </div>
-					<div class="column is-6">
-                                                <div class="box">
-                                                        <h1 class="title is-3 has-text-dark">Next19</h1>
-                                                        <figure class="image">
-								<img class="img-center" style="padding:15px;" src="https://cloud.withgoogle.com/next/assets/img/ab3245a.svg"> 
-                                                        </figure>
-							<p>At Next19 was the real realization, that even though I was a kid, I can still do things to affect people, and that shouldn't hold me back. This is when Google reached out and offered me a free pass to a Google conference in San Fransisco. This exploded my mind, because I was just tinkering and home, and the fact that this big huge dream company of mine had asked me to attend was unreal. When I got there, I was so nervous, but I ended up making a lot of friends, and learned a lot about ML that would help me with my science fair</p>
-                                                </div>
-                                        </div>
-				</div>
-			</div>
-		</section>
-		<section class="hero">
-			<div class="hero-body has-text-centered">
-				<h1 class="title">Contact Me!</h1>
-				<h1 class="subtitle">Have questions? Have a cool project? Feel free to contact me at <a href="mailto:neel.redkar@outllok.com">neel.redkar@outlook.com</a> or fill out the form!</h1>
-				<div class="is-flex" style="justify-content:center">
-				<form class="form" method="POST" style="width:50vw;" action="https://formspree.io/neel.redkar@outlook.com">
-	                                  <div class="field">
-                                                  <label class="label">Name</label>
-        	                                    <div class="control">
-                	                                <input class="input" type="text" name="Name" placeholder="Name" required>
-                        	                          </div>
-                                          </div>
-					<div class="field">
-        			            <label class="label">Email</label>
-        			            <div class="control has-icons-left">
-                			        <input class="input" type="email" id="email" name="Email" placeholder="Email" required>
-                			        <span class="icon is-left">
-                        			    <i class="fas fa-envelope"></i>
-                      				  </span>
-                  				  </div>
-              				  </div>
-					  <div class="field">
-						  <label class="label">Subject</label>
-						  <div class="control">
-							  <input class="input" type="text" placeholder="Subject" name="Subject">
-						  </div>
-					  </div>
-			                  <div class="field">
-			                    <label class="label">Body</label>
-        			            <div class="control">
-                			        <textarea name="Body" rows="5" cols="40" class="textarea"
-              				              placeholder="Body"></textarea>
-              				      </div>
-             				   </div>
-					   <input type="submit" value="Send" class="button is-link">
-				</form>
-				</div>
-			</div>
-		</section>
-		<div class="footer">
-			<div class="container has-text-centered">
-				<h1 class="title is-5">GPL Affero License</h1>
-				<h1 class="title is-6">Look at my projects or my social media!</h1>
-				<div class="is-flex" style="justify-content:center;">
-				<div class="columns" style="width:10vw;">
-					<div class="column">
-						<a href="https://github.com/hacker719">
-						<span class="icon">
-  							<i class="fab fa-github fa-2x"></i>
-						</span></a>
-					</div>
-	                                 <div class="column">
-                                                <a href="https://www.instagram.com/nilereedmar/">
-                                                <span class="icon">
-                                                        <i class="fab fa-instagram fa-2x"></i>
-                                                </span></a>
-                                        </div>
-                                        <div class="column">
-                                                <a href="https://www.linkedin.com/in/neel-redkar-1b8b1418b/">
-                                                <span class="icon">
-                                                        <i class="fab fa-linkedin fa-2x"></i>
-                                                </span></a>
-                                        </div>
-				</div>
 				</div>
 			</div>
 		</div>
+	</section>
+	<section class="hero">
+		<div class="hero-body">
+			<div class="columns">
+				<div class="column is-1"></div>
+				<div class="column is-one-third">
+					<div class="column-body">
+						<h1 class="title">Who am I?</h1>
+						<p>Hi, I am a student in 9th grade who goes to DVHS or Dougherty Valley High School. I love to
+							program and create new things that help other people. Some languages I know include, Python,
+							JavaScript, HTML, CSS, Node.js, and Swift. These are used for various things including
+							websites, apps, and servers. I also love math, science, and competitive debate!</p>
+					</div>
+				</div>
+				<div class="column is-2"></div>
+				<div class="column is-4">
+					<div class="content has-text-centered">
+						<h2 class="title is-5">HTML and CSS</h2>
+						<progress class="progress is-link" value="75" max="100">75%</progress>
+						<h2 class="title is-5">React Native</h2>
+						<progress class="progress is-link" value="70" max="100">70%</progress>
+						<h2 class="title is-5">Node.js</h2>
+						<progress class="progress is-link" value="95" max="100">95%</progress>
+						<h2 class="title is-5">Swift</h2>
+						<progress class="progress is-link" value="60" max="100">60%</progress>
+					</div>
+					<style>
+						@keyframes progress {
+							from {
+								width: 0;
+							}
 
-		<script>
-                 function hello(data) {
-                         document.getElementById("desc").innerHTML ='"'+ data.quoteText+'"';
-			 if (data.quoteAuthor && data.quoteAuthor != "") {
-			 	document.getElementById("source").innerHTML = "-"+data.quoteAuthor;
-			 } else {
-				 document.getElementById("source").innerHTML = "-Anonymous";
-			 }
-                 }         
-		</script>
+							to {
+								width: 90%;
+							}
+						}
+
+						.progress::-webkit-progress-bar {
+							animation: progress 1s linear;
+						}
+					</style>
+				</div>
+			</div>
+	</section>
+	<section class="hero is-info">
+		<div class="hero-body has-text-centered">
+			<h1 class="title">Events!</h1>
+			<p>Events throughout the years I have gone to or organized</p>
+			<div class="columns is-multiline" style="padding:15px;">
+				<div class="column is-6">
+					<div class="box">
+						<h1 class="title is-3 has-text-dark">Flagship Summit</h1>
+						<figure class="image">
+							<img class="img-center is-rounded" style="padding:15px;height:200px;width:350px;"
+								src="https://lh3.googleusercontent.com/y7HEE5d__u3WwUGswEITusRW1vBKiDd1Q5Abl2_DZRgupmX145Z8ZJ0BzO36W-31HdoL5DPfmj_-Xe7LzvdzNdEgLCFyEdVy9hIbSIEWLF0KvCsifdbQo9Xvf4-tQHlLaTqDk8y0MsNlKBP9bhDeMSP6oorAW0b2iEufdAUIfuO6lavOEFelf1f8-F-O4k3RqwPaWmYvCtW7-gYE9to6BBUpRBqTwPbIU9kDWLXtyKf_BQ4jxNDbbDfh3vLsaQ5nYappYkR-6lqfnfuyT5dSuaANU7GmuEwYaRJLQ6d785Hi1nj50XROTe6wXfGMi1rDcIsEoSvtrcr__E-Cqef3Cf9cl9XCBWpflQz2Qc9153-KrSDSni042S-I3x3DfVjPc_i3leeRHaE5xpvmKd_mUYZLUNmHEtU6jCg5OWJXzXSkzSMFf0-j2t_btEiPR1V3_y3miYroH5E41m9iiZF8j-CyzjL9rHMZ9nXNFcqLCjstILG6lejyjcleAIjDwVZN4SSBB2IpbejTo3ISXPlNKslbgWac4YA4hLY8NAL_8na3SWbgcjZd8AQYUVLJBy7EQPvLqRKTUt_omlKFWsAwjc7xYPYC1TvbPKw46I2J8TIgpbLys5MO2YzDhnFqyDCsXgjNqII_znKwedFpNtZ940dWKnHu5eXA-FjScUNJi2wLCd7LsZFooVrc5VyBRvAFkxp3txjHeG77LW7wwKg7ddlfcQ=w2130-h1420-no">
+						</figure>
+						<p>At flagship summit I met many people, and it was my first dive into the
+							community of Hack Club. Hack Club is a global orginization of high school clubs who teach
+							and spread the love of programming! At this leadership summit, I learnied how to teach other
+							students, engage them in activities, organize a hackathon, and so much more. I also met many
+							people, including the Co Founder of Github!</p>
+					</div>
+				</div>
+				<div class="column is-6">
+					<div class="box">
+						<h1 class="title is-3 has-text-dark">Nationals Debate</h1>
+						<figure class="image">
+							<img src="assets/nats.JPG" class="img-center is-rounded"
+								style="padding:15px;height:200px;width:300px;">
+						</figure>
+						<p>Nationals for debate was great for me because I love debate and got to experience many high
+							stakes debate rounds! After many weeks of preparing for nationals, I competed hard and ended
+							up getting a 3-3 record! This not only helped me get better as a debater, but opened my eyes
+							to the full debate community!</p>
+					</div>
+				</div>
+				<div class="column is-6">
+					<div class="box">
+						<h1 class="title is-3 has-text-dark">County and State Science Fair</h1>
+						<figure class="image">
+							<img src="https://smartrecycle.enenra.org/icon.png" class="img-center is-rounded"
+								style="height:200px;width:200px;">
+						</figure>
+						<p>The CCSEF or California Science and Engineering Fair or 2019 was a tranformative fair for me.
+							In the past I have won many awards for science fair projects, but they were all based on the
+							scientific method. This year, I tried to combine CS and Science Fair to try something new.
+							So I took a problem, which was that people dont recycle, and tried to fix that! I created a
+							machine learning app (that can be found in the app store) called SmartRecycle. This app uses
+							machine learning to tell recycling, from trash, from compost! With this I got 1st in my
+							county science fair, and second in states!</p>
+						<div class="field is-grouped is-grouped-centered" style="padding:15px">
+							<div class="control">
+								<a class="button is-link" href="https://github.com/hacker719/recyclesmartapp">Source
+									Code</a>
+							</div>
+							<div class="control">
+								<a class="button is-success" href="https://smartrecycle.enenra.org">Website</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="column is-6">
+					<div class="box">
+						<h1 class="title is-3 has-text-dark">LaunchHacks</h1>
+						<figure class="image">
+							<img class="img-center" style="width:200px;height:200px;padding:15px;"
+								src="https://raw.githubusercontent.com/BananiumLabs/LaunchHacksSite/master/img/logo-no-shadow.png">
+						</figure>
+						<p>LaunchHacks, which was my first hackathon, was one of my first steps into entering the
+							developer community! I made many friends, had a lot of fun, and learned how to take a
+							product all the way to completion. For this hackathon, our team created a NLP bot that
+							helped students with depression and how to get over it! You can check that out in my github
+							at the footer. This also got me into hackathons and was my first time meeting people like
+							me, who loved to code!</p>
+					</div>
+				</div>
+				<div class="column is-6">
+					<div class="box">
+						<h1 class="title is-3 has-text-dark">Next19</h1>
+						<figure class="image">
+							<img class="img-center" style="padding:15px;"
+								src="https://cloud.withgoogle.com/next/assets/img/ab3245a.svg">
+						</figure>
+						<p>At Next19 was the real realization, that even though I was a kid, I can still do things to
+							affect people, and that shouldn't hold me back. This is when Google reached out and offered
+							me a free pass to a Google conference in San Fransisco. This exploded my mind, because I was
+							just tinkering and home, and the fact that this big huge dream company of mine had asked me
+							to attend was unreal. When I got there, I was so nervous, but I ended up making a lot of
+							friends, and learned a lot about ML that would help me with my science fair</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section class="hero">
+		<div class="hero-body has-text-centered">
+			<h1 class="title">Contact Me!</h1>
+			<h1 class="subtitle">Have questions? Have a cool project? Feel free to contact me at <a
+					href="mailto:neel.redkar@outllok.com">neel.redkar@outlook.com</a> or fill out the form!</h1>
+			<div class="is-flex" style="justify-content:center">
+				<form class="form" method="POST" style="width:50vw;"
+					action="https://formspree.io/neel.redkar@outlook.com">
+					<div class="field">
+						<label class="label">Name</label>
+						<div class="control">
+							<input class="input" type="text" name="Name" placeholder="Name" required>
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Email</label>
+						<div class="control has-icons-left">
+							<input class="input" type="email" id="email" name="Email" placeholder="Email" required>
+							<span class="icon is-left">
+								<i class="fas fa-envelope"></i>
+							</span>
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Subject</label>
+						<div class="control">
+							<input class="input" type="text" placeholder="Subject" name="Subject">
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Body</label>
+						<div class="control">
+							<textarea name="Body" rows="5" cols="40" class="textarea" placeholder="Body"></textarea>
+						</div>
+					</div>
+					<input type="submit" value="Send" class="button is-link">
+				</form>
+			</div>
+		</div>
+	</section>
+	<div class="footer">
+		<div class="container has-text-centered">
+			<h1 class="title is-5">GPL Affero License</h1>
+			<h1 class="title is-6">Look at my projects or my social media!</h1>
+			<div class="container" style="display: table;">
+				<div class="container" style="display: table-row">
+					<div class="container" style="display:table-cell; padding:10px !important;">
+						<a href="https://github.com/hacker719">
+							<span class="icon">
+								<i class="fab fa-github fa-2x"></i>
+							</span></a>
+					</div>
+					<div class="container" style="display:table-cell; padding:10px !important;">
+						<a href="https://www.instagram.com/nilereedmar/">
+							<span class="icon">
+								<i class="fab fa-instagram fa-2x"></i>
+							</span></a>
+					</div>
+					<div class="container" style="display:table-cell; padding:10px !important;">
+						<a href="https://www.linkedin.com/in/neel-redkar-1b8b1418b/">
+							<span class="icon">
+								<i class="fab fa-linkedin fa-2x"></i>
+							</span></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		function hello(data) {
+			document.getElementById("desc").innerHTML = '"' + data.quoteText + '"';
+			if (data.quoteAuthor && data.quoteAuthor != "") {
+				document.getElementById("source").innerHTML = "-" + data.quoteAuthor;
+			} else {
+				document.getElementById("source").innerHTML = "-Anonymous";
+			}
+		}         
+	</script>
 	<script src="https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=hello"></script>
-	</body>
+</body>
+
 </html>
