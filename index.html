@@ -18,13 +18,26 @@
 				clip-path: polygon(0 0, 100% 0, 100% 77%, 0 100%);
 			}
 		}
-
+		@media screen and (max-width:1025px) {
+			.navbar-brand {
+				display: none !important;
+			}
+		}
 		.img-center {
 			margin-left: auto !important;
 			margin-right: auto !important;
 		}
+		.cus:hover {
+			color:#209cee;
+		}
+		.cus {
+			color:#0087e1 ;
+		}
 	</style>
 	<nav class="navbar is-fixed-top" style="background-color:rgba(255, 0, 0, 0)">
+		<div class="navbar-brand">
+			<a href="https://notebook.neelr.dev" class="navbar-item cus"><i class="fas fa-book fa-2x"></i></a>
+		</div>
 		<div class="navbar-end">
 			<div class="navbar-item">
 				<a class="button is-link" href="./projects/">My Projects</a>
