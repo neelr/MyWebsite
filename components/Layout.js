@@ -4,7 +4,7 @@ import Head from "next/head";
 export default class Layout extends React.Component {
     render () {
         return(
-            <div style={{minWidth:"700px"}}>
+            <div className="cont">
                 <Head>
                     <title>neelr</title>
                     <script src="../static/script.js"></script>
@@ -20,13 +20,24 @@ export default class Layout extends React.Component {
                     html {
                         display:flex;
                     }
+                    @media screen and (max-width:740px) {
+                        body {
+                            width:100vw !important;
+                        }
+                        .cont {
+                            width:96vw !important;
+                            margin-left:4vw;
+                        }
+                    }
+                    .cont {
+                        width:700px;
+                    }
                     body {
+                        height:100%;
                         display:flex;
-                        flex-direction:row;
                         margin-right:auto;
                         margin-left:auto;
-                        min-width:700px;
-                        padding:20px;
+                        width:700px;
                     }
                 `}</style>
             </div>
