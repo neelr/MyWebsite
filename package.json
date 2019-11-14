@@ -4,7 +4,7 @@
   "description": "A website to put my stuff on!",
   "scripts": {
     "start": "next",
-    "build": "next build && next export"
+    "export": "next build && next export"
   },
   "repository": {
     "type": "git",
