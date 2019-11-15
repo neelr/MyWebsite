@@ -9,6 +9,9 @@ export default class Layout extends React.Component {
                     <title>neelr</title>
                     <script src="../static/script.js"></script>
                 </Head>
+                <div className="header">
+                    <a href="https://github.com/neelr" style={{margin:"auto"}}>@neelr</a>
+                </div>
                 {this.props.children}
                 <style jsx global>{`
                     @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700,800&display=swap');
@@ -16,6 +19,10 @@ export default class Layout extends React.Component {
                         font-family: 'Open Sans', sans-serif;
                         font-weight:400;
                         height:100%;
+                    }
+                    .header {
+                        width:100vw;
+                        display:flex;
                     }
                     .underline {
                         border-bottom:4px solid #6c7c84;
@@ -48,8 +55,9 @@ export default class Layout extends React.Component {
                             width:100vw;
                         }
                         .cont {
-                            width:96vw;
+                            width:93vw;
                             margin-left:4vw;
+                            margin-right:3vw;
                         }
                     }
                 `}</style>
