@@ -11,6 +11,10 @@ export default class Layout extends React.Component {
                     <Head>
                         <title>neelr</title>
                         <script src="../static/script.js"></script>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                        <meta name="og:title" content="neelr"/>
+                        <meta name="og:description" content="All about @neelr(Neel Redkar)!"/>
+                        <meta name="og:image" content="https://deploy-preview-1--neelr.netlify.com/static/self.jpg"/>
                     </Head>
                     <div className="header">
                         <a href="/" style={{flex:1,textAlign:"center"}}>@neelr</a>
