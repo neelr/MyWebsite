@@ -1,5 +1,6 @@
 import React from "react";
 import Layout from "../components/Layout";
+import Link from "next/link";
 
 export default class Index extends React.Component {
     render () {
@@ -25,6 +26,8 @@ export default class Index extends React.Component {
                     <li>I had the wonderful oppertuinity to win 1st place in my local science fair, and 2nd place statewide for an app that used machine learning to classify waste into recycling, trash, and compost! It was a great experience where I learned more about app development and machine learning! You can check the cool code over <a style={{color:"green"}} href="https://github.com/neelr/recyclesmartapp">at the github</a> and the actual app over <a href="https://apps.apple.com/us/app/smartrecycle/id1460199868?app=itunes&ign-mpt=uo%3D4">on the app store!</a></li>
                     <li>At <a href="https://cloud.withgoogle.com/next/sf/" style={{color:"#4285f4"}}>Next19</a> was the real realization, that even though I was a kid, I can still do things to affect people, and that shouldn't hold me back. This is when Google reached out and offered me a free pass to a Google conference in San Fransisco. This exploded my mind, because I was just tinkering and home, and the fact that this big huge dream company of mine had asked me to attend was unreal. When I got there, I was so nervous, but I ended up making a lot of friends, and learned a lot about ML that would help me with my science fair!</li>
                 </ul>
+                <h2 className="underline">Projects</h2>
+                <p>This is going to be pretty long, so <Link href="/projects"><a>I'll link to it here!</a></Link></p>
                 <h2 className="underline">Contact Me!</h2>
                 <p>If you're interested in talking and you're an interesting person, feel free to email me at <a href="mailto:neel.redkar@outlook.com">neel.redkar@outlook.com</a> or hit me up at my slack handle at <strong>@neelr</strong>!</p>
             </Layout>
