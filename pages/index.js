@@ -1,6 +1,5 @@
 import React from "react";
 import Layout from "../components/Layout";
-import { FaGithub, FaFacebookSquare, FaLinkedin } from 'react-icons/fa';
 
 export default class Index extends React.Component {
     render () {
@@ -28,44 +27,6 @@ export default class Index extends React.Component {
                 </ul>
                 <h2 className="underline">Contact Me!</h2>
                 <p>If you're interested in talking and you're an interesting person, feel free to email me at <a href="mailto:neel.redkar@outlook.com">neel.redkar@outlook.com</a> or hit me up at my slack handle at <a>@neelr</a>!</p>
-                <footer>
-                    <p style={{margin:"auto",fontWeight:"700"}}>Check out the <a href="https://github.com/neelr/mywebsite">source code!</a></p>
-                    <div style={{margin:"auto"}}>
-                        <a style={{color:"white"}} href="https://www.facebook.com/neel.redkar.16"><FaFacebookSquare size="2em" className="icon"/></a>
-                        <a style={{color:"white"}} href="https://github.com/neelr"><FaGithub size="2em" className="icon"/></a>
-                        <a style={{color:"white"}} href="https://www.linkedin.com/in/neel-redkar-1b8b1418b/"><FaLinkedin size="2em" className="icon"/></a>
-                    </div>
-                </footer>
-                <style>{`
-                    .icon:hover {
-                        color:grey;
-                        cursor:pointer;
-                    }
-                    .icon {
-                        margin:10px;
-                        color:white;
-                        
-                    }
-                    footer {
-                        height:50px;
-                        display: flex;
-                        flex-direction:column;
-                    }
-                    h1 {
-                        font-weight:800;
-                    }
-                    h2 {
-                        font-weight:700;
-                    }
-                    .portrait {
-                        width:200px;
-                        border-radius:200px;
-                    }
-                    html {
-                        background-color:#22242b;
-                        color:white;
-                    }
-                `}</style>
             </Layout>
         )
     }
