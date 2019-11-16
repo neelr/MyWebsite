@@ -65,6 +65,7 @@ export default class Layout extends React.Component {
                         }
                         a:hover {
                             color:grey;
+                            text-decoration:underline;
                         }
                         li {
                             margin:10px;
@@ -108,7 +109,7 @@ export default class Layout extends React.Component {
                             font-weight:700;
                         }
                         .portrait {
-                            width:200px;
+                            width:150px;
                             border-radius:200px;
                         }
                         html {
