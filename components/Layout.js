@@ -20,7 +20,8 @@ export default class Layout extends React.Component {
                         <a href="/" style={{flex:1,textAlign:"center"}}>@neelr</a>
                         <a style={{flex:3}}></a>
                         <div style={{flex:2,display:"flex"}}>
-                            <a style={{marginRight:"10px"}} href="https://notebook.neelr.dev">Notebook</a>
+                            <Link href="/projects"><a>Projects</a></Link>
+                            <a style={{marginRight:"10px",marginLeft:"10px"}} href="https://notebook.neelr.dev">Notebook</a>
                             <Link href="/resume"><a>Resume</a></Link>
                         </div>
                     </div>
