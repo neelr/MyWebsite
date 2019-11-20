@@ -6,6 +6,9 @@ export default class Index extends React.Component {
         return(
             <Layout>
                 <h1 className="underline">Projects</h1>
+                <h2>ScrapeMail ✉️</h2>
+                <p>While I was looking for sponsorship emails, I decided to give up and look for a email scraper. As I went looking around, I realized literally all of them costed an amount of money! This is why I ended up creating ScrapeMail! ScrapeMail is an npm global module that can scrape email's from a website and scrapes one page deep! You can <a href="https://npmjs.org/~hacker719/scrapemail">find it on npm!</a></p>
+                <hr/>
                 <h2>The Debate Timer 👔</h2>
                 <p>While looking around school, I realized that I hated using my phone timer in debate tournaments, and needing a new piece of paper for every debate! This is why I make The Debate Timer! It's a debate laptop app, to time a debate and flow one! <a href="https://github.com/neelr/thedebatetimer/releases">Check out the latest release on GitHub!</a></p>
                 <hr/>
