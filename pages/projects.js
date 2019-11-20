@@ -1,12 +1,17 @@
 import React from "react";
 import Layout from "../components/Layout";
-import { FaGithub, FaFacebookSquare, FaLinkedin } from 'react-icons/fa';
 
 export default class Index extends React.Component {
     render () {
         return(
             <Layout>
                 <h1 className="underline">Projects</h1>
+                <h2>The Debate Timer 👔</h2>
+                <p>While looking around school, I realized that I hated using my phone timer in debate tournaments, and needing a new piece of paper for every debate! This is why I make The Debate Timer! It's a debate laptop app, to time a debate and flow one! <a href="https://github.com/neelr/thedebatetimer/releases">Check out the latest release on GitHub!</a></p>
+                <hr/>
+                <h2>Marker 🖊️</h2>
+                <p>Marker is a nice little webpage that allows you to shorten your URL's and create your own website! All you need to do is add an ID, and then you're new URL will be at <code style={{backgroundColor:"grey"}}>https://marker.now.sh/id</code>! You can also edit your URL or markdown page later on with the password you put in at the start! <a href="https://marker.now.sh">Try it out at the webiste</a></p>
+                <hr/>
                 <h2>Find 🔎</h2>
                 <p>This is a <a href="https://find.neelr.dev">fun little website</a> which updates my location and where I am through an IOS shortcut! This is a quirky fun way for people to get to know me!</p>
                 <hr/>
