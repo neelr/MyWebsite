@@ -9,7 +9,7 @@ export default class Index extends React.Component {
                 <script defer src="https://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=jsonp&jsonp=quote"></script>
                 <div style={{width:"100%",display:"flex",justifyContent:"center",flexDirection:"column",textAlign:"center"}}>
                     <h1>Neel Redkar</h1>
-                    <img src="../public/self.jpg" className="portrait" style={{marginRight:"auto",marginLeft:"auto"}}/>
+                    <img src="../static/self.jpg" className="portrait" style={{marginRight:"auto",marginLeft:"auto"}}/>
                     <p style={{fontWeight:700}}>Fullstack Developer</p>
                     <p style={{marginTop:0,color:"#adb2b7"}}>Web Dev, App Dev, ML/AI</p>
                     <p style={{width:"50%",marginLeft:"auto",marginRight:"auto"}} id="quote"></p>

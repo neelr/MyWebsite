@@ -10,7 +10,7 @@ export default class Layout extends React.Component {
                 <div className="cont">
                     <Head>
                         <title>neelr</title>
-                        <script src="../public/script.js"></script>
+                        <script src="../static/script.js"></script>
                         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                         <meta name="og:title" content="neelr"/>
                         <meta name="og:description" content="All about @neelr(Neel Redkar)!"/>
