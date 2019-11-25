@@ -22,7 +22,7 @@ export default class Layout extends React.Component {
                         <div style={{flex:2,display:"flex"}}>
                             <Link href="/projects"><a>Projects</a></Link>
                             <a style={{marginRight:"10px",marginLeft:"10px"}} href="https://notebook.neelr.dev">Notebook</a>
-                            <Link href="/resume"><a>Resume</a></Link>
+                            <a href="../static/resume.pdf">Resume</a>
                         </div>
                     </div>
                     <div style={{display:"inline"}}>
