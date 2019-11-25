@@ -15,6 +15,9 @@ export default class Index extends React.Component {
                 <h2>Marker 🖊️</h2>
                 <p>Marker is a nice little webpage that allows you to shorten your URL's and create your own website! All you need to do is add an ID, and then you're new URL will be at <code style={{backgroundColor:"grey"}}>https://marker.now.sh/id</code>! You can also edit your URL or markdown page later on with the password you put in at the start! <a href="https://marker.now.sh">Try it out at the webiste</a></p>
                 <hr/>
+                <h2>DayScraper 🎉</h2>
+                <p>When emailing sponsors for emails, I love to put something nice and quirky at the end, and I decided National Holdiays would work! I then quickly made a National Holday scraper to speed emailing up, and thats how I got DayScraper! It scrapes off all national holiday's into one simple api! You can also find today's national holiday <a href="https://dayscraper.glitch.me">on the website!</a></p>
+                <hr/>
                 <h2>Find 🔎</h2>
                 <p>This is a <a href="https://find.neelr.dev">fun little website</a> which updates my location and where I am through an IOS shortcut! This is a quirky fun way for people to get to know me!</p>
                 <hr/>
