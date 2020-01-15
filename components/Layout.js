@@ -6,7 +6,8 @@ import { FaGithub, FaFacebookSquare, FaLinkedin } from 'react-icons/fa';
 export default class Layout extends React.Component {
     render() {
         return (
-            <div style={{height:"100%"}}>
+            <div style={{height:"100%",marginTop:"20px"}}>
+                <div style={{backgroundColor:"#00abff",height:"10px",position:"absolute",top:0,left:0,width:"100vw"}}></div>
                 <div className="cont">
                     <Head>
                         <title>neelr</title>
