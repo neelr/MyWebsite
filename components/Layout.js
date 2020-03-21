@@ -6,35 +6,35 @@ import { FaGithub, FaFacebookSquare, FaLinkedin } from 'react-icons/fa';
 export default class Layout extends React.Component {
     render() {
         return (
-            <div style={{height:"100%",marginTop:"20px"}}>
-                <div style={{backgroundColor:"#00abff",height:"10px",position:"absolute",top:0,left:0,width:"100vw"}}></div>
+            <div style={{ height: "100%", marginTop: "20px" }}>
+                <div style={{ backgroundColor: "#00abff", height: "10px", position: "absolute", top: 0, left: 0, width: "100vw" }}></div>
                 <div className="cont">
                     <Head>
                         <title>neelr</title>
                         <script src="../static/script.js"></script>
-                        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-                        <meta name="og:title" content="neelr"/>
-                        <meta name="og:description" content="All about @neelr(Neel Redkar)!"/>
-                        <meta name="og:image" content="https://deploy-preview-1--neelr.netlify.com/static/self.jpg"/>
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                        <meta name="og:title" content="neelr" />
+                        <meta name="og:description" content="All about @neelr(Neel Redkar)!" />
+                        <meta name="og:image" content="https://deploy-preview-1--neelr.netlify.com/static/self.jpg" />
                     </Head>
                     <div className="header">
-                        <a href="/" style={{flex:1,textAlign:"center"}}>@neelr</a>
-                        <a style={{flex:3}}></a>
-                        <div style={{flex:2,display:"flex"}}>
+                        <a href="/" style={{ flex: 1, textAlign: "center" }}>@neelr</a>
+                        <a style={{ flex: 3 }}></a>
+                        <div style={{ flex: 2, display: "flex" }}>
                             <Link href="/projects"><a>Projects</a></Link>
-                            <a style={{marginRight:"10px",marginLeft:"10px"}} href="https://notebook.neelr.dev">Notebook</a>
+                            <a style={{ marginRight: "10px", marginLeft: "10px" }} href="https://notebook.neelr.dev">Notebook</a>
                             <a href="../static/resume.pdf">Resume</a>
                         </div>
                     </div>
-                    <div style={{display:"inline"}}>
+                    <div id="main" style={{ display: "inline" }}>
                         {this.props.children}
                     </div>
                     <footer>
-                        <p style={{margin:"auto",fontWeight:"700"}}>Check out the <a href="https://github.com/neelr/mywebsite">source code!</a></p>
-                        <div style={{margin:"auto"}}>
-                            <a style={{color:"white"}} href="https://www.facebook.com/neel.redkar.16"><FaFacebookSquare size="2em" className="icon"/></a>
-                            <a style={{color:"white"}} href="https://github.com/neelr"><FaGithub size="2em" className="icon"/></a>
-                            <a style={{color:"white"}} href="https://www.linkedin.com/in/neel-redkar-1b8b1418b/"><FaLinkedin size="2em" className="icon"/></a>
+                        <p style={{ margin: "auto", fontWeight: "700" }}>Check out the <a href="https://github.com/neelr/mywebsite">source code!</a></p>
+                        <div style={{ margin: "auto" }}>
+                            <a style={{ color: "white" }} href="https://www.facebook.com/neel.redkar.16"><FaFacebookSquare size="2em" className="icon" /></a>
+                            <a style={{ color: "white" }} href="https://github.com/neelr"><FaGithub size="2em" className="icon" /></a>
+                            <a style={{ color: "white" }} href="https://www.linkedin.com/in/neel-redkar-1b8b1418b/"><FaLinkedin size="2em" className="icon" /></a>
                         </div>
                     </footer>
                     <style jsx global>{`
@@ -126,5 +126,14 @@ export default class Layout extends React.Component {
                 </div>
             </div>
         )
+    }
+    componentDidMount() {
+        let letters = ""
+        document.onkeypress = e => {
+            letters += e.key.toLowerCase();
+            if (letters.includes("shrek")) {
+                document.getElementById("main").innerHTML = "<img src='/static/yes.svg'/>"
+            }
+        };
     }
 }
