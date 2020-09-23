@@ -2,7 +2,9 @@ import React from "react"
 import Head from "next/head";
 import Link from "next/link";
 import { FaGithub, FaFacebookSquare, FaLinkedin } from 'react-icons/fa';
-
+/**
+ * @
+ */
 export default class Layout extends React.Component {
     render() {
         return (
