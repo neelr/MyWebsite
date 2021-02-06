@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/neelr/MyWebsite.git"
   },
+  "installConfig": {
+    "pnp": true
+  },
   "keywords": [
     "next.js",
     "website"

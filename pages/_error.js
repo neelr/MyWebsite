@@ -1,6 +1,5 @@
 import React from "react";
 import Layout from "../components/Layout";
-import { FaGithub, FaFacebookSquare, FaLinkedin } from 'react-icons/fa';
 
 export default class Index extends React.Component {
     render() {
