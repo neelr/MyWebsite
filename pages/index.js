@@ -16,7 +16,7 @@ export default class Index extends React.Component {
                     <p style={{ width: "50%", marginLeft: "auto", marginRight: "auto" }} id="author"></p>
                 </div>
                 <h2 className="underline">Who am I? <span aria-hidden="true">👨‍💻</span></h2>
-                <p>Hi! I'm a sophomore in high school and a full stack web developer that lives in San Ramon currently! I love to help people learn to program and code through a <a style={{ color: "rgb(255, 38, 38)" }} href="https://hackclub.com">Hack Club</a> hosted at my high school, DVHS! I love math, science, and building stuff with other people!</p>
+                <p>Hi! I'm a junior in high school and a full stack web developer that lives in San Ramon currently! I love to help people learn to program and code through a <a style={{ color: "rgb(255, 38, 38)" }} href="https://hackclub.com">Hack Club</a> hosted at my high school, DVHS! I love math, science, and building stuff with other people!</p>
                 <h2 className="underline">What have I done? 🙌</h2>
                 <p>A few cool things that I've organized and gone to throughout the years:</p>
                 <ul>
