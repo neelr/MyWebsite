@@ -14,9 +14,9 @@ type QuoteData = {
   quoteLink: string;
 };
 
-type Data = {
+export type Data = {
   quote: string;
-  quoteAuthor: string;
+  author: string;
 };
 
 let qFallback: QuoteData;
@@ -29,6 +29,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
+  let data: Data = await getQuote();
+  res.status(200).json(data);
+}
+
+export let getQuote = async () => {
   let data: QuoteData;
   try {
     let q = await fetch(
@@ -38,7 +43,5 @@ export default async function handler(
   } catch (e) {
     data = qFallback;
   }
-  res
-    .status(200)
-    .json({ quote: data.quoteText, quoteAuthor: data.quoteAuthor });
-}
+  return { quote: data.quoteText, author: data.quoteAuthor };
+};
