@@ -6,6 +6,8 @@ const supabaseKey = `${process.env.DATABASE_KEY}`;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export type Data = {
+  city: string;
+  weather: string;
   error: PostgrestError | null;
 };
 
@@ -15,10 +17,16 @@ export default async function handler(
 ) {
   const { data, error } = await supabase
     .from("locations")
-    .upsert({
-      id: Date.now(),
-      city: req.body.location,
-      weather: req.body.weather,
-    });
-  res.status(200).json({ error });
+    .select("city, weather")
+    .order("id", { ascending: false })
+    .limit(1);
+  let resp: Data = { city: "", weather: "", error };
+  if (data) {
+    resp = {
+      city: data[0].city,
+      weather: data[0].weather,
+      error: null,
+    };
+  }
+  res.status(200).json(resp);
 }
