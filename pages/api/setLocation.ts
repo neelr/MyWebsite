@@ -18,7 +18,7 @@ export default async function handler(
     return res.status(401).json({ error: "Not Authed" });
   // check if req.body is valid
 
-  if (req.body.city && req.body.weather) {
+  if (req.body.location && req.body.weather) {
     await supabase.from("locations").upsert({
       id: Date.now(),
       city: req.body.location,
