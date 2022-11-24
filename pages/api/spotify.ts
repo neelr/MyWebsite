@@ -10,6 +10,8 @@ type Song = {
   progress: number;
   duration: number;
   playing?: boolean;
+  playlistName?: string;
+  playlistUrl?: string;
 };
 type Device = {
   name: string;
@@ -54,6 +56,7 @@ let getSong = async (): Promise<Song> => {
     progress: song.progress_ms,
     duration: song.item.duration_ms,
     playing: song.is_playing,
+    playlistUrl: song.context?.uri,
   };
 };
 let getDevice = async (): Promise<Device> => {
@@ -103,6 +106,19 @@ export let getSpotifyData = async (): Promise<Data> => {
     });
     spotifyToken = (await access.json()).access_token;
     song = await getSong();
+  }
+  if (song.playlistUrl?.includes("playlist")) {
+    let playlist = await fetch(
+      `https://api.spotify.com/v1/playlists/${song.playlistUrl.split(":")[2]}`,
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyToken}`,
+        },
+      }
+    );
+    let playlistData = await playlist.json();
+    song.playlistName = playlistData.name;
+    song.playlistUrl = playlistData.external_urls.spotify;
   }
   let device = await getDevice();
   return { ...song, device };
