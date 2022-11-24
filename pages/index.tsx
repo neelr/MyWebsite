@@ -62,7 +62,7 @@ export default function Home({
           - {quote.author}
         </Text>
         <hr />
-        <Text sx={{ fontStyle: "italic" }}>I'm at {location.city} where its {location.weather}</Text>
+        <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
         {spotifyDataS.duration > 0 ? (
           <>
             <Text as="p">
