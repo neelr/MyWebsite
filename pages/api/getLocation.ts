@@ -11,10 +11,7 @@ export type Data = {
   error: PostgrestError | null;
 };
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
+export let getLocation = async (): Promise<Data> => {
   const { data, error } = await supabase
     .from("locations")
     .select("city, weather")
@@ -28,5 +25,12 @@ export default async function handler(
       error: null,
     };
   }
-  res.status(200).json(resp);
+  return resp;
+};
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<Data>
+) {
+  res.status(200).json(await getLocation());
 }

@@ -4,17 +4,20 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Box, Link, Text } from "theme-ui";
 import styles from "../styles/Home.module.css";
+import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
 
 export default function Home({
   quote,
   spotifyData,
+  location,
   date,
   ...props
 }: {
   quote: quoteType;
   spotifyData: spotifyType;
+  location: locationType;
   date: number;
 }) {
   let [spotifyProgress, setProgress] = useState(spotifyData.progress);
@@ -59,6 +62,7 @@ export default function Home({
           - {quote.author}
         </Text>
         <hr />
+        <Text sx={{ fontStyle: "italic" }}>I'm at {location.city} where its {location.weather}</Text>
         {spotifyDataS.duration > 0 ? (
           <>
             <Text as="p">
@@ -118,12 +122,14 @@ export default function Home({
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  let data = await getQuote();
+  let quote = await getQuote();
   let spotifyData = await getSpotifyData();
+  let location = await getLocation();
   return {
     props: {
-      quote: data,
-      spotifyData: spotifyData,
+      quote,
+      spotifyData,
+      location,
       date: Date.now(),
     },
   };
