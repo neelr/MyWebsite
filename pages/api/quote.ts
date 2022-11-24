@@ -43,5 +43,5 @@ export let getQuote = async () => {
   } catch (e) {
     data = qFallback;
   }
-  return { quote: data.quoteText, author: data.quoteAuthor };
+  return { quote: data.quoteText, author: data.quoteAuthor ?? "Anonymous" };
 };
