@@ -17,7 +17,9 @@ export let getLocation = async (): Promise<Data> => {
     .select("city, weather")
     .order("id", { ascending: false })
     .limit(1);
+
   let resp: Data = { city: "", weather: "", error };
+
   if (data) {
     resp = {
       city: data[0].city,
@@ -25,6 +27,7 @@ export let getLocation = async (): Promise<Data> => {
       error: null,
     };
   }
+
   return resp;
 };
 

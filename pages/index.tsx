@@ -23,7 +23,7 @@ export default function Home({
   let [spotifyProgress, setProgress] = useState(spotifyData.progress);
   let [spotifyDataS, setSpotifyDataS] = useState(spotifyData);
   useEffect(() => {
-    let x = setInterval(() => {
+    let intervalId = setInterval(() => {
       // Update Spotify data every 5 seconds
       fetch("/api/spotify")
         .then((res) => res.json())
@@ -34,15 +34,15 @@ export default function Home({
           spotifyDataS = d;
         });
     }, 5000);
-    let y = setInterval(() => {
+    let intervalId2 = setInterval(() => {
       // Update Spotify time every second
       let futureProgress = spotifyDataS.progress + (Date.now() - date)
       if (spotifyDataS.playing && !(spotifyDataS.duration <= futureProgress))
         setProgress(futureProgress);
     }, 1000);
     return () => {
-      clearInterval(x);
-      clearInterval(y);
+      clearInterval(intervalId);
+      clearInterval(intervalId2);
     };
   }, []);
   return (

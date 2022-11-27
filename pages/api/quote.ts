@@ -33,8 +33,13 @@ export default async function handler(
   res.status(200).json(data);
 }
 
+/**
+ * Gets a random quote from the Forismatic API.
+ * @returns An object containing the quote and the author.
+ */
 export let getQuote = async () => {
   let data: QuoteData;
+  // Fetch the quote from the API, or use the fallback if the API is not available.
   try {
     let q = await fetch(
       "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en"
@@ -43,5 +48,6 @@ export let getQuote = async () => {
   } catch (e) {
     data = qFallback;
   }
+  // Return the quote and author.
   return { quote: data.quoteText, author: data.quoteAuthor ?? "Anonymous" };
 };

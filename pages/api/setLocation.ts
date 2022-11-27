@@ -9,23 +9,43 @@ export type Data = {
   error: PostgrestError | null | string;
 };
 
+async function checkAuth(req: NextApiRequest) {
+  const authorization = req.headers.authorization;
+  if (!authorization) {
+    throw new Error("Not Authed");
+  }
+
+  const key = authorization.split(" ")[1];
+  if (key !== process.env.LOCATION_KEY) {
+    throw new Error("Not Authed");
+  }
+}
+
+async function insertLocation(req: NextApiRequest) {
+  const location = req.body.location;
+  const weather = req.body.weather;
+
+  if (!location || !weather) {
+    throw new Error("Bad Request");
+  }
+
+  await supabase.from("locations").upsert({
+    id: Date.now(),
+    city: location,
+    weather: weather,
+  });
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  // check auth
-  if (req.headers.authorization !== `Bearer ${process.env.LOCATION_KEY}`)
-    return res.status(401).json({ error: "Not Authed" });
-  // check if req.body is valid
-
-  if (req.body.location && req.body.weather) {
-    await supabase.from("locations").upsert({
-      id: Date.now(),
-      city: req.body.location,
-      weather: req.body.weather,
-    });
-  } else {
-    return res.status(400).json({ error: "Bad Request" });
+  try {
+    await checkAuth(req);
+    await insertLocation(req);
+  } catch (error) {
+    return res.status(400).json({ error: `${error}` });
   }
+
   res.status(200).json({ error: null });
 }
