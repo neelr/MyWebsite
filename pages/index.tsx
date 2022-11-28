@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Box, Link, Text } from "theme-ui";
+import Sidebar from "../components/sidebar";
 import styles from "../styles/Home.module.css";
 import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
@@ -47,9 +48,11 @@ export default function Home({
   }, []);
   return (
     <Box sx={{ display: "flex", mt: "100px" }}>
+      <Sidebar />
       <Box
         sx={{
           mx: "auto",
+          ml: ["auto", 3],
           width: ["90vw", "65vw"],
           flexDirection: "column",
         }}
