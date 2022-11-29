@@ -44,8 +44,12 @@ let getSong = async (): Promise<Song> => {
       progress: 0,
       duration: 0,
       playing: true,
+      playlistUrl: "",
+      playlistName: "",
     };
   let song = await resp.json();
+  console.log(song);
+  ``;
   return {
     song: song.item.name,
     artist: song.item.artists[0].name,
@@ -56,7 +60,7 @@ let getSong = async (): Promise<Song> => {
     progress: song.progress_ms,
     duration: song.item.duration_ms,
     playing: song.is_playing,
-    playlistUrl: song.context?.uri,
+    playlistUrl: song.context?.uri ?? null,
   };
 };
 let getDevice = async (): Promise<Device> => {

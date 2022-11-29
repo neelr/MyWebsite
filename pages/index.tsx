@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Box, Link, Text } from "theme-ui";
 import Sidebar from "../components/sidebar";
+import { SpotifyBar } from "../components/spotifyBar";
 import styles from "../styles/Home.module.css";
 import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
@@ -21,34 +22,9 @@ export default function Home({
   location: locationType;
   date: number;
 }) {
-  let [spotifyProgress, setProgress] = useState(spotifyData.progress);
-  let [spotifyDataS, setSpotifyDataS] = useState(spotifyData);
-  useEffect(() => {
-    let intervalId = setInterval(() => {
-      // Update Spotify data every 5 seconds
-      fetch("/api/spotify")
-        .then((res) => res.json())
-        .then((d) => {
-          date = Date.now();
-          setProgress(d.progress);
-          setSpotifyDataS(d);
-          spotifyDataS = d;
-        });
-    }, 5000);
-    let intervalId2 = setInterval(() => {
-      // Update Spotify time every second
-      let futureProgress = spotifyDataS.progress + (Date.now() - date)
-      if (spotifyDataS.playing && !(spotifyDataS.duration <= futureProgress))
-        setProgress(futureProgress);
-    }, 1000);
-    return () => {
-      clearInterval(intervalId);
-      clearInterval(intervalId2);
-    };
-  }, []);
   return (
-    <Box sx={{ display: "flex", mt: "100px" }}>
-      <Sidebar />
+    <Box sx={{ display: "flex", mt: "100px", flexDirection: ["column-reverse", "row"] }}>
+      <Sidebar active={0} />
       <Box
         sx={{
           mx: "auto",
@@ -66,56 +42,7 @@ export default function Home({
         </Text>
         <hr />
         <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
-        {spotifyDataS.duration > 0 ? (
-          <>
-            <Text as="p">
-              Listening on {spotifyDataS.device.name}
-              {spotifyDataS.playlistName ? (
-                <span>
-                  {" "}to{" "}
-                  <Link
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href={spotifyDataS.playlistUrl}
-                  >
-                    {spotifyDataS.playlistName}
-                  </Link>
-                </span>
-              ) : (
-                ""
-              )}
-              :
-            </Text>
-            <Link
-              href={spotifyDataS.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{ display: "flex", flexDirection: "column" }}
-            >
-              <Box sx={{ display: "flex" }}>
-                <img
-                  src={spotifyDataS.albumArt}
-                  width={40}
-                  height={40}
-                  alt={spotifyDataS.album}
-                />
-                <Text
-                  my="auto"
-                  mx="10px"
-                >{`${spotifyDataS.song}, ${spotifyDataS.artist}`}</Text>
-                <Text my="auto">{`${Math.floor(
-                  spotifyProgress / 1000 / 60
-                )}:${pad(
-                  Math.floor((spotifyProgress / 1000) % 60)
-                )} / ${Math.floor(spotifyDataS.duration / 1000 / 60)}:${pad(
-                  Math.floor((spotifyDataS.duration / 1000) % 60)
-                )}`}</Text>
-              </Box>
-            </Link>
-          </>
-        ) : (
-          ""
-        )}
+        <SpotifyBar date={date} spotifyData={spotifyData} />
         <Box>
           <Image src={"/hippo.png"} width={200} height={200} alt="hippo" />
         </Box>
@@ -127,6 +54,7 @@ export default function Home({
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let quote = await getQuote();
   let spotifyData = await getSpotifyData();
+  console.log(spotifyData)
   let location = await getLocation();
   return {
     props: {
@@ -136,8 +64,4 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       date: Date.now(),
     },
   };
-}
-
-function pad(d: number): string {
-  return d < 10 ? "0" + d.toString() : d.toString();
 }
