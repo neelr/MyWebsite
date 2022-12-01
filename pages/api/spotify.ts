@@ -48,8 +48,7 @@ let getSong = async (): Promise<Song> => {
       playlistName: "",
     };
   let song = await resp.json();
-  console.log(song);
-  ``;
+
   return {
     song: song.item.name,
     artist: song.item.artists[0].name,
