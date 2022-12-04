@@ -79,10 +79,6 @@ export default function Home({
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-  ctx.res.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${60*60*24}, stale-while-revalidate=${60*60*24}`
-)
   let quote = await getQuote();
   let spotifyData = await getSpotifyData();
   let location = await getLocation();
