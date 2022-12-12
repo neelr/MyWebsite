@@ -11,9 +11,26 @@ import Parser from "rss-parser";
 
 const parser = new Parser({
   customFields: {
-    item: ['stars:count','media:content'],
+    item: ['stars:count', 'media:content'],
   }
 });
+
+let notebookFeed: NotebookPost[];
+
+(async () => {
+  let notebookRSS = await parser.parseURL('https://notebook.neelr.dev/feed.rss');
+  notebookFeed = notebookRSS.items.slice(0, 5).map((item: any) => {
+    return {
+      title: item.title,
+      description: item.contentSnippet,
+      link: item.link,
+      stars: item["stars:count"],
+      tags: item.categories,
+      pubDate: item.pubDate,
+      image: item["media:content"]["$"].url
+    }
+  });
+})();
 
 type NotebookPost = {
   title: string;
@@ -64,7 +81,7 @@ export default function Home({
             <Text as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
             <Text as="p">{post.stars}</Text>
             <Text as="p">{post.tags.map((tag) => `#${tag} `)}</Text>
-            <Image src={post.image} width={320} height={180} alt={post.title}/>
+            <Image src={post.image} width={320} height={180} alt={post.title} />
           </Box>
         ))}
         <hr />
@@ -82,18 +99,6 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let quote = await getQuote();
   let spotifyData = await getSpotifyData();
   let location = await getLocation();
-  let notebookRSS = await parser.parseURL("https://notebook.neelr.dev/feed.rss");
-  let notebookFeed : NotebookPost[] = notebookRSS.items.slice(0,5).map((item: any) => {
-    return {
-      title: item.title,
-      description: item.contentSnippet,
-      link: item.link,
-      stars: item["stars:count"],
-      tags: item.categories,
-      pubDate: item.pubDate,
-      image: item["media:content"]["$"].url
-    }
-  });  
 
   return {
     props: {
