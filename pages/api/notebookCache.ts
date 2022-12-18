@@ -16,11 +16,28 @@ async function local(id: string): Promise<number> {
   let data = await res.json();
   return data.stars;
 }
+async function checkAuth(req: NextApiRequest) {
+  const authorization = req.headers.authorization;
+  if (!authorization) {
+    throw new Error("Not Authed");
+  }
 
+  const key = authorization.split(" ")[1];
+  if (key !== process.env.NOTEBOOK_UPDATE_KEY) {
+    throw new Error("Not Authed");
+  }
+}
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Check Authorization
+  try {
+    await checkAuth(req);
+  } catch (error) {
+    return res.status(400).json({ error: `${error}` });
+  }
+
   let response = await Client.query(
     Prismic.Predicates.at("document.type", "stories"),
     {
