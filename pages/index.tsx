@@ -1,7 +1,5 @@
 import { GetServerSidePropsContext } from "next";
-import Head from "next/head";
 import Image from "next/image";
-import NLink from "next/link";
 import { Box, Link, Text } from "theme-ui";
 import Sidebar from "../components/sidebar";
 import { SpotifyBar } from "../components/spotifyBar";
@@ -9,7 +7,7 @@ import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
 import { ReactTypical as Typer } from '@deadcoder0904/react-typical';
-import { motion, useScroll } from "framer-motion";
+import { useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} sx={{ ":visited": { color: "gray" } }} target="_blank" {...props} />;

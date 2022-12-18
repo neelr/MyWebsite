@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from "next";
-import { Box, Text } from "theme-ui";
+import { Box, Link, Text } from "theme-ui";
 import Sidebar from "../components/sidebar";
 import { SpotifyBar } from "../components/spotifyBar";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
@@ -14,7 +14,7 @@ export default function Home({
 }) {
     return (
         <Box sx={{ display: "flex", mt: "100px", flexDirection: ["column-reverse", "row"] }}>
-            <Sidebar active={0} />
+            <Sidebar active={1} />
             <Box
                 sx={{
                     mx: "auto",
@@ -23,7 +23,7 @@ export default function Home({
                     flexDirection: "column",
                 }}
             >
-                <Text variant="h1">oops i don&rsquo;t have that page...</Text>
+                <Text as="h1">Projects!</Text>
                 <SpotifyBar spotifyData={spotifyData} date={date} />
             </Box>
         </Box>
