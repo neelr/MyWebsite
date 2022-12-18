@@ -9,8 +9,10 @@ import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
 import { ReactTypical as Typer } from '@deadcoder0904/react-typical';
+import { motion, useScroll } from "framer-motion";
+import { useEffect, useState } from "react";
 
-const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} target="_blank" passHref {...props} />;
+const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} target="_blank" {...props} />;
 
 type NotebookPost = {
   title: string;
@@ -36,6 +38,17 @@ export default function Home({
   location: locationType;
   date: number;
 }) {
+  const { scrollYProgress } = useScroll();
+  const [confetti, setConfetti] = useState(false);
+
+  useEffect(() => {
+    return scrollYProgress.onChange((latest) => {
+      if (latest > 0.9) {
+        setConfetti(true);
+        return
+      }
+    })
+  }, [scrollYProgress])
   return (
     <Box sx={{ display: "flex", mt: "100px", flexDirection: ["column-reverse", "row"] }}>
       <Sidebar active={0} />
@@ -76,6 +89,7 @@ export default function Home({
         </Box>
         <hr />
         <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
+        {confetti && <Typer steps={['Thanks for scrolling through my site!', 1000, "Make with <3 by neelr"]} />}
         <SpotifyBar date={date} spotifyData={spotifyData} />
         <Box>
           <Image src={"/hippo.png"} width={200} height={200} alt="hippo" />
