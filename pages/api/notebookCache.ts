@@ -42,7 +42,7 @@ export default async function handler(
     Prismic.Predicates.at("document.type", "stories"),
     {
       orderings: "[my.stories.date_created desc]",
-      pageSize: 1500,
+      pageSize: 10,
       page: 1,
     }
   );
