@@ -69,12 +69,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let location = await getLocation();
 
   // Check if file exists
-  let fileExists = true;
   try {
     await fs.access("./cache/notebookCache.json");
   } catch (e) {
-    fileExists = false;
-    reloadCache();
+    await reloadCache();
   }
 
   let notebookFeed = JSON.parse(await fs.readFile("./cache/notebookCache.json", "utf8")) as NotebookPost[];
