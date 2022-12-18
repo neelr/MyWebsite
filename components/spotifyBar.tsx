@@ -7,6 +7,13 @@ import { BsSpotify } from "react-icons/bs";
 
 const PROFILE = "https://open.spotify.com/user/neel.redkar"
 
+const limiter = (str: string, limit: number = 20) => {
+    if (str.length > limit) {
+        return str.substring(0, limit) + "...";
+    }
+    return str;
+};
+
 export function SpotifyBar({
     spotifyData,
     date,
@@ -63,7 +70,7 @@ export function SpotifyBar({
                             rel="noopener noreferrer"
                             href={spotifyDataS.playlistUrl}
                         >
-                            {spotifyDataS.playlistName}
+                            {limiter(spotifyDataS.playlistName)}
                         </Link>
                     </span>
                 ) : (
@@ -87,7 +94,7 @@ export function SpotifyBar({
                         <Text
                             my="auto"
                             mx="10px"
-                        >{`${spotifyDataS.song}, ${spotifyDataS.artist}`}</Text>
+                        >{`${limiter(spotifyDataS.song)}, ${limiter(spotifyDataS.artist)}`}</Text>
                         <Text my="auto">{`${Math.floor(
                             spotifyProgress / 1000 / 60
                         )}:${pad(
