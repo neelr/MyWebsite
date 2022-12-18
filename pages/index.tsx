@@ -89,7 +89,7 @@ export default function Home({
         </Box>
         <hr />
         <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
-        {confetti && <Typer steps={['Thanks for scrolling through my site!', 1000, "Make with <3 by neelr"]} />}
+        {confetti && <Typer steps={['Thanks for scrolling through my site!', 1000, "Made with <3 by neelr"]} />}
         <SpotifyBar date={date} spotifyData={spotifyData} />
         <Box>
           <Image src={"/hippo.png"} width={200} height={200} alt="hippo" />
