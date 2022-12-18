@@ -8,6 +8,7 @@ import { SpotifyBar } from "../components/spotifyBar";
 import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
+import { ReactTypical as Typer } from '@deadcoder0904/react-typical';
 
 const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} target="_blank" passHref {...props} />;
 
@@ -46,7 +47,8 @@ export default function Home({
           flexDirection: "column",
         }}
       >
-        <Text variant="heading">Hi, I&rsquo;m Neel.</Text>
+        <Text variant="heading">Hi, I&rsquo;m Neel, <Typer steps={['...', 2000, '...a programmer?', 2000, '...a philosopher?', 1700, '...a founder?', 2000, 'a maker.', 1000]}
+          wrapper="span" /></Text>
         <Text as="p" sx={{ fontStyle: "italic" }}>
           {quote.quote}
         </Text>

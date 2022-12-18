@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@deadcoder0904/react-typical": "^0.1.2",
     "@emotion/react": "^11.10.5",
     "@supabase/supabase-js": "^2.1.1",
     "@types/node": "18.11.9",
