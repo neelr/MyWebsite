@@ -27,17 +27,8 @@ async function checkAuth(req: NextApiRequest) {
     throw new Error("Not Authed");
   }
 }
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  // Check Authorization
-  try {
-    await checkAuth(req);
-  } catch (error) {
-    return res.status(400).json({ error: `${error}` });
-  }
 
+export async function reloadCache() {
   let response = await Client.query(
     Prismic.Predicates.at("document.type", "stories"),
     {
@@ -73,6 +64,18 @@ export default async function handler(
     JSON.stringify(data),
     "utf8"
   );
+}
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  // Check Authorization
+  try {
+    await checkAuth(req);
+  } catch (error) {
+    return res.status(400).json({ error: `${error}` });
+  }
+  await reloadCache();
   res.status(200).send("OK");
 }
 

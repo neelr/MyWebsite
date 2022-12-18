@@ -7,7 +7,7 @@ import { SpotifyBar } from "../components/spotifyBar";
 import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
-import { NotebookPost } from "./api/notebookCache";
+import { NotebookPost, reloadCache } from "./api/notebookCache";
 import fs from "fs/promises";
 
 export default function Home({
@@ -67,6 +67,16 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let quote = await getQuote();
   let spotifyData = await getSpotifyData();
   let location = await getLocation();
+
+  // Check if file exists
+  let fileExists = true;
+  try {
+    await fs.access("./cache/notebookCache.json");
+  } catch (e) {
+    fileExists = false;
+    reloadCache();
+  }
+
   let notebookFeed = JSON.parse(await fs.readFile("./cache/notebookCache.json", "utf8")) as NotebookPost[];
   // Only get first 5 posts
   notebookFeed = notebookFeed.slice(0, 5);
