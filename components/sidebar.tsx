@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FC } from "react";
-import { Box, Text } from "theme-ui";
+import { Box, Text, Link as TLink } from "theme-ui";
 import { Url } from "url";
 
 interface Children {
@@ -8,6 +8,8 @@ interface Children {
     active?: boolean;
     href?: string;
 }
+
+const A = (props: any) => <TLink style={{ textDecoration: "underline" }} target="_blank" {...props} />;
 
 export default function Sidebar({ active }: { active: number }) {
     return (
@@ -20,7 +22,7 @@ export default function Sidebar({ active }: { active: number }) {
             pt: ["20px", 0],
             pr: [0, 3],
             flexDirection: "column",
-            width: ["90vw", "auto"]
+            width: ["90vw", "10vw"]
         }}>
             {
                 [["Hello!", "/"], ["Projects"], ["Notebook", "https://notebook.neelr.dev"], ["Résume"]].map((item, index) => {
@@ -32,6 +34,8 @@ export default function Sidebar({ active }: { active: number }) {
                     )
                 })
             }
+            <hr />
+            <A target="_blank" href="https://github.com/neelr">github</A> / <A target="_blank" href="https://twitter.com/_neelr_">twitter</A> / <A target="_blank" href="https://www.linkedin.com/in/neelr01/">linkedin</A> / <A target="_blank" href="https://www.instagram.com/neelr01/">insta</A> / <A target="_blank" href="https://www.facebook.com/neel.redkar.16/">facebook</A>
         </Box>
     )
 }
