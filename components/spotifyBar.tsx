@@ -5,7 +5,7 @@ import { Link, Text, Box } from "theme-ui";
 import { getSpotifyData, Data as spotifyType } from "../pages/api/spotify";
 import { BsSpotify } from "react-icons/bs";
 
-const PROFILE = "https://open.spotify.com/user/neel.redkar?si=d60fbb1bab3e4416"
+const PROFILE = "https://open.spotify.com/user/neel.redkar"
 
 export function SpotifyBar({
     spotifyData,

@@ -50,16 +50,23 @@ export default function Home({
         <Text as="p" sx={{ fontStyle: "italic" }}>
           - {quote.author}
         </Text>
-        <Text as="h1">Notebook Posts!</Text>
-        {notebookFeed.map((post, i) => (
-          <Box sx={{ display: "flex", flexDirection: "column", mb: 3 }} key={i}>
-            <Link target={"_blank"} href={post.link}><Text as="h2">{post.title}</Text></Link>
-            <Text as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
-            <Text as="p">{post.stars}</Text>
-            <Text as="p">{post.tags.map((tag) => `#${tag} `)}</Text>
-            <Image src={post.image} width={320} height={180} alt={post.title} />
-          </Box>
-        ))}
+        <br />
+        <Text as="p">Currently a senior in highschool, lover of code, and avid exclamation mark (over?) user! As a philosophy nerd, I tend to research the boundaries of AI, developing new models. Though a maker at heart, I am a (self) certified generalist—web dev, game dev, systems, & anime.</Text>
+        <Text as="p" mt="10px">It all started off with an invitation to Next19—my first (not last) conference—which taught me one of my favorite ideas, <i>&quot;don&rsquo;t let school take away from your eduction&quot;</i>.</Text>
+        <Text as="p" mt="10px">Interested in interacting with the &quot;real world&quot;, I became an active member of HackClub organizing many events (including AngelHacks & the Summer of Making).</Text>
+        <Text as="p" mt="10px">Blasting off I gathered experiences—some crazy AI internships, taking a train for a 3,502 mile long hackathon, and independant research on turning CO2 into fuel!</Text>
+        <Text as="p" mt="10px">If you find any of this interesting, or just want to talk, hit me up with an email with something resembling my name [at] this domain! I&rsquo;m trying to read more, so reccomend me some books/music!</Text>
+        <Text as="h2" mt="15px">Notebook Posts!</Text>
+        <Box sx={{ flexWrap: "wrap", display: "flex" }}>
+          {notebookFeed.map((post, i) => (
+            <Box sx={{ display: "flex", flexDirection: "column", mb: 3, width: ["100%", "45%"] }} key={i}>
+              <Link target={"_blank"} href={post.link}><Text as="h3">{post.title}</Text></Link>
+              <Image src={post.image} width={320} height={180} alt={post.title} />
+              <Text as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
+              <Text as="p">{post.tags.map((tag) => `#${tag} `)}</Text>
+            </Box>
+          ))}
+        </Box>
         <hr />
         <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
         <SpotifyBar date={date} spotifyData={spotifyData} />
@@ -77,7 +84,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let location = await getLocation();
 
   let notebookRSS = await fetch('https://notebook.neelr.dev/feed_first5.json');
-  let notebookFeed: NotebookPost[] = (await notebookRSS.json()).map((item: any) => {
+  let notebookFeed: NotebookPost[] = (await notebookRSS.json()).splice(0, 4).map((item: any) => {
     return {
       title: item.title,
       description: item.description,
