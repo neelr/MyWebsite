@@ -12,7 +12,7 @@ import { ReactTypical as Typer } from '@deadcoder0904/react-typical';
 import { motion, useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} target="_blank" {...props} />;
+const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} sx={{ ":visited": { color: "gray" } }} target="_blank" {...props} />;
 
 type NotebookPost = {
   title: string;
@@ -82,7 +82,7 @@ export default function Home({
                 <Text as="h3" sx={{ textDecoration: "underline" }}>{post.title}</Text>
                 <Image src={post.image} width={320} height={180} alt={post.title} />
                 <Text sx={{ color: "text" }} as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
-                <Text sx={{ color: "text" }} as="p">{post.tags.map((tag, i) => <><BLink href={`https://notebook.neelr.dev/tags/${tag}`} key={i}>{`#${tag}`}</BLink>{i < post.tags.length - 1 ? " / " : ""}</>)}</Text>
+                <Text sx={{ color: "text" }} as="p">{post.tags.map((tag, i) => <span key={i}><BLink href={`https://notebook.neelr.dev/tags/${tag}`}>{`#${tag}`}</BLink>{i < post.tags.length - 1 ? " / " : ""}</span>)}</Text>
               </Link>
             </Box>
           ))}
