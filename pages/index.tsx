@@ -60,7 +60,7 @@ export default function Home({
           flexDirection: "column",
         }}
       >
-        <Text variant="heading">Hi, I&rsquo;m Neel, <Typer steps={['...', 2000, '...a programmer?', 2000, '...a philosopher?', 1700, '...a founder?', 2000, 'a maker.', 1000]}
+        <Text variant="heading">Hi, I&rsquo;m Neel<Typer steps={[".", 2000, ', ...a programmer?', 2000, ', ...a philosopher?', 1700, ', ...a founder?', 2000, ', a maker.', 1000]}
           wrapper="span" /></Text>
         <Text as="p" sx={{ fontStyle: "italic" }}>
           {quote.quote}
