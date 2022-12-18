@@ -7,8 +7,16 @@ import { SpotifyBar } from "../components/spotifyBar";
 import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
-import { NotebookPost, reloadCache } from "./api/notebookCache";
-import fs from "fs/promises";
+
+type NotebookPost = {
+  title: string;
+  description: string;
+  pubDate: string;
+  link: string;
+  stars: number;
+  tags: string[];
+  image: string;
+}
 
 export default function Home({
   quote,
@@ -68,16 +76,18 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let spotifyData = await getSpotifyData();
   let location = await getLocation();
 
-  // Check if file exists
-  try {
-    await fs.access("./cache/notebookCache.json");
-  } catch (e) {
-    await reloadCache();
-  }
-
-  let notebookFeed = JSON.parse(await fs.readFile("./cache/notebookCache.json", "utf8")) as NotebookPost[];
-  // Only get first 5 posts
-  notebookFeed = notebookFeed.slice(0, 5);
+  let notebookRSS = await fetch('https://notebook.neelr.dev/feed_first5.json');
+  let notebookFeed: NotebookPost[] = (await notebookRSS.json()).map((item: any) => {
+    return {
+      title: item.title,
+      description: item.description,
+      link: item.url,
+      stars: item.upvotes,
+      tags: item.categories,
+      pubDate: item.date,
+      image: item.image
+    }
+  });
 
   return {
     props: {
