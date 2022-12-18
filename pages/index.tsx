@@ -1,12 +1,15 @@
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import Image from "next/image";
+import NLink from "next/link";
 import { Box, Link, Text } from "theme-ui";
 import Sidebar from "../components/sidebar";
 import { SpotifyBar } from "../components/spotifyBar";
 import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
+
+const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} target="_blank" passHref {...props} />;
 
 type NotebookPost = {
   title: string;
@@ -51,7 +54,7 @@ export default function Home({
           - {quote.author}
         </Text>
         <br />
-        <Text as="p">Currently a senior in highschool, lover of code, and avid exclamation mark (over?) user! As a philosophy nerd, I tend to research the boundaries of AI, developing new models. Though a maker at heart, I am a (self) certified generalist—web dev, game dev, systems, & anime.</Text>
+        <Text as="p">Currently a senior in highschool, lover of code, and avid exclamation mark (over?) user! As a <BLink href="https://notebook.neelr.dev/tags/philosophy">philosophy nerd</BLink>, I tend to research the boundaries of AI, developing new models. Though a maker at heart, I am a (self) certified generalist—web dev, game dev, systems, & anime.</Text>
         <Text as="p" mt="10px">It all started off with an invitation to Next19—my first (not last) conference—which taught me one of my favorite ideas, <i>&quot;don&rsquo;t let school take away from your eduction&quot;</i>.</Text>
         <Text as="p" mt="10px">Interested in interacting with the &quot;real world&quot;, I became an active member of HackClub organizing many events (including AngelHacks & the Summer of Making).</Text>
         <Text as="p" mt="10px">Blasting off I gathered experiences—some crazy AI internships, taking a train for a 3,502 mile long hackathon, and independant research on turning CO2 into fuel!</Text>
@@ -60,10 +63,12 @@ export default function Home({
         <Box sx={{ flexWrap: "wrap", display: "flex" }}>
           {notebookFeed.map((post, i) => (
             <Box sx={{ display: "flex", flexDirection: "column", mb: 3, width: ["100%", "45%"] }} key={i}>
-              <Link target={"_blank"} href={post.link}><Text as="h3">{post.title}</Text></Link>
-              <Image src={post.image} width={320} height={180} alt={post.title} />
-              <Text as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
-              <Text as="p">{post.tags.map((tag) => `#${tag} `)}</Text>
+              <Link target={"_blank"} href={post.link}>
+                <Text as="h3" sx={{ textDecoration: "underline" }}>{post.title}</Text>
+                <Image src={post.image} width={320} height={180} alt={post.title} />
+                <Text sx={{ color: "text" }} as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
+                <Text sx={{ color: "text" }} as="p">{post.tags.map((tag) => `#${tag} `)}</Text>
+              </Link>
             </Box>
           ))}
         </Box>
@@ -74,7 +79,7 @@ export default function Home({
           <Image src={"/hippo.png"} width={200} height={200} alt="hippo" />
         </Box>
       </Box>
-    </Box>
+    </Box >
   );
 }
 
