@@ -7,40 +7,8 @@ import { SpotifyBar } from "../components/spotifyBar";
 import { getLocation, Data as locationType } from "./api/getLocation";
 import { getQuote, Data as quoteType } from "./api/quote";
 import { getSpotifyData, Data as spotifyType } from "./api/spotify";
-import Parser from "rss-parser";
-
-const parser = new Parser({
-  customFields: {
-    item: ['stars:count', 'media:content'],
-  }
-});
-
-let notebookFeed: NotebookPost[];
-
-(async () => {
-  let notebookRSS = await parser.parseURL('https://notebook.neelr.dev/feed.rss');
-  notebookFeed = notebookRSS.items.slice(0, 5).map((item: any) => {
-    return {
-      title: item.title,
-      description: item.contentSnippet,
-      link: item.link,
-      stars: item["stars:count"],
-      tags: item.categories,
-      pubDate: item.pubDate,
-      image: item["media:content"]["$"].url
-    }
-  });
-})();
-
-type NotebookPost = {
-  title: string;
-  description: string;
-  pubDate: string;
-  link: string;
-  stars: number;
-  tags: string[];
-  image: string;
-}
+import { NotebookPost } from "./api/notebookCache";
+import fs from "fs/promises";
 
 export default function Home({
   quote,
@@ -99,6 +67,9 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let quote = await getQuote();
   let spotifyData = await getSpotifyData();
   let location = await getLocation();
+  let notebookFeed = JSON.parse(await fs.readFile("./cache/notebookCache.json", "utf8")) as NotebookPost[];
+  // Only get first 5 posts
+  notebookFeed = notebookFeed.slice(0, 5);
 
   return {
     props: {
