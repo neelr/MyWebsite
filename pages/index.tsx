@@ -14,6 +14,14 @@ import { useEffect, useState } from "react";
 
 const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} sx={{ ":visited": { color: "gray" } }} target="_blank" {...props} />;
 
+type GithubRecentCommitData = {
+  sha: string;
+  message: string;
+  date: string;
+  url: string;
+  repo: string;
+}
+
 type NotebookPost = {
   title: string;
   description: string;
@@ -27,6 +35,7 @@ type NotebookPost = {
 export default function Home({
   quote,
   spotifyData,
+  githubRecent,
   notebookFeed,
   location,
   date,
@@ -34,6 +43,7 @@ export default function Home({
 }: {
   quote: quoteType;
   spotifyData: spotifyType;
+  githubRecent: GithubRecentCommitData;
   notebookFeed: NotebookPost[];
   location: locationType;
   date: number;
@@ -74,6 +84,7 @@ export default function Home({
         <Text as="p" mt="10px">Interested in interacting with the &quot;real world&quot;, I became an active member of <BLink href="https://hackclub.com">HackClub</BLink> <BLink href="https://event.codeday.org/ba">organizing</BLink> <BLink href="https://dvhacks-3.devpost.com/">many</BLink> <BLink href="https://archive.vn/Q0LyP">events</BLink> (including <BLink href="https://angelhacks.org">AngelHacks</BLink> & the <BLink href="https://summer.hackclub.com">Summer of Making</BLink>). IMO i made <BLink href="https://github.com/neelr/BackFiler">some</BLink> <BLink href="https://github.com/neelr/goJSON">cool</BLink> <BLink href="https://github.com/neelr/LeishNN">projects</BLink> <BLink href="https://github.com/neelr/flappyai">too</BLink>.</Text>
         <Text as="p" mt="10px">Blasting off I gathered experiences—some <BLink href="https://roambee.com">crazy</BLink> <BLink href="https://fbk.eu">AI</BLink> <BLink href="https://teachaids.org">internships</BLink>, taking a train for a <BLink href="https://notebook.neelr.dev/stories/the-hacker-zephyr.">3,502 mile long hackathon</BLink>, and <BLink href="https://projectboard.world/isef/project/mats055---ai-developed-novel-mof-for-carbon-capture">independant research on turning CO2 into fuel</BLink>!</Text>
         <Text as="p" mt="10px">If you find any of this interesting, or just want to talk, hit me up with an email with something resembling my name [at] this domain! I&rsquo;m trying to read more, so reccomend me some books/music!</Text>
+        <Text as="p" mt="10px">Most recently caught &quot;{githubRecent.message}&quot;-ing @ <BLink href={githubRecent.url}>{githubRecent.repo}</BLink></Text>
         <Text as="h2" mt="15px">Notebook Posts!</Text>
         <Box sx={{ flexWrap: "wrap", display: "flex" }}>
           {notebookFeed.map((post, i) => (
@@ -103,6 +114,17 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let quote = await getQuote();
   let spotifyData = await getSpotifyData();
   let location = await getLocation();
+  let github = await fetch('https://api.github.com/users/neelr/events/public?per_page=1');
+  let githubData = await github.json();
+
+  let githubRecent: GithubRecentCommitData = {
+    repo: githubData[0].repo.name,
+    // clean url for ui
+    url: githubData[0].repo.url.replace("https://api.github.com/repos/", "https://github.com/"),
+    message: githubData[0].payload.commits[0].message,
+    date: githubData[0].created_at,
+    sha: githubData[0].payload.commits[0].sha,
+  }
 
   let notebookRSS = await fetch('https://notebook.neelr.dev/feed_first5.json');
   let notebookFeed: NotebookPost[] = (await notebookRSS.json()).splice(0, 4).map((item: any) => {
@@ -124,6 +146,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
       location,
       date: Date.now(),
       notebookFeed,
+      githubRecent
     },
   };
 }
