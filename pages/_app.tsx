@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-sync-scripts */
 import "../styles/globals.css"
 
 import type { AppProps } from "next/app";
@@ -10,6 +11,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={theme}>
       <Head>
         <title>@neelr</title>
+        <script src='https://analytics.stacc.cc/api/script/CP5FbkTS998I'></script>
         <meta name="title" content="@neelr" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="description" content="find out a little about me!" />
