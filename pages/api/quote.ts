@@ -45,6 +45,7 @@ export let getQuote = async () => {
       "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en"
     );
     data = await q.json();
+    data.quoteText && data.quoteAuthor;
   } catch (e) {
     data = qFallback;
   }
