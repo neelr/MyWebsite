@@ -8,7 +8,7 @@ export default function Shrek() {
             keys.push(event.key);
             updateKeys(keys.slice(-5));
             if (keys.join("") === "shrek") {
-                document.body.innerHTML = "<img src='/yes.svg' style='height:100vh'/>";
+                document.body.innerHTML = "<div style='height:100vh;width:100vw;display:flex;'><img src='/yes.svg' style='height:100vh; margin-right:auto;margin-left:auto;'/></div>";
             }
         };
         document.addEventListener("keydown", listener);
