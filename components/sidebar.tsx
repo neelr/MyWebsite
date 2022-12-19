@@ -12,7 +12,7 @@ interface Children {
 const A = (props: any) => <TLink style={{ textDecoration: "underline" }} target="_blank" {...props} />;
 
 export default function Sidebar({ active }: { active: number }) {
-    return (
+    return (<>
         <Box sx={{
             borderTop: ["1px solid", 0],
             borderRight: [0, "1px solid"],
@@ -22,7 +22,8 @@ export default function Sidebar({ active }: { active: number }) {
             pt: ["20px", 0],
             pr: [0, 3],
             flexDirection: "column",
-            width: ["90vw", "10vw"]
+            width: ["90vw", "10vw"],
+            display: ["none", "block"],
         }}>
             {
                 [["Hello!", "/"], ["Projects"], ["Notebook", "https://notebook.neelr.dev"], ["Résume"]].map((item, index) => {
@@ -37,15 +38,43 @@ export default function Sidebar({ active }: { active: number }) {
             <hr />
             <A target="_blank" href="https://github.com/neelr">github</A> / <A target="_blank" href="https://twitter.com/_neelr_">twitter</A> / <A target="_blank" href="https://www.linkedin.com/in/neelr01/">linkedin</A> / <A target="_blank" href="https://www.instagram.com/neelr01/">insta</A> / <A target="_blank" href="https://www.facebook.com/neel.redkar.16/">facebook</A>
         </Box>
+        <Box sx={{
+            borderBottom: "1px solid",
+            borderColor: "muted",
+            ml: "auto",
+            mr: "auto",
+            pt: "20px",
+            width: "90vw",
+            display: ["flex", "none"],
+            mb: "10px",
+            pb: "10px",
+            flexDirection: "column",
+        }}>
+            <Box sx={{ display: "flex", flexDirection: "row" }}>
+                {
+                    [["Hello!", "/"], ["Projects"], ["Notebook", "https://notebook.neelr.dev"], ["Résume"]].map((item, index, a) => {
+                        return (<Box sx={{ display: "flex" }} key={index}>
+                            <ActiveLink href={item[1] ?? `/${item[0].toLowerCase() === "home" ? "" : item[0].toLowerCase()
+                                }`} active={active === index}>
+                                {item[0]}
+                            </ActiveLink>
+                            {index !== a.length - 1 ? <Text sx={{ px: "10px" }}>/</Text> : null}
+                        </Box>
+                        )
+                    })
+                }
+            </Box>
+            <span>
+                <A target="_blank" href="https://github.com/neelr">github</A> / <A target="_blank" href="https://twitter.com/_neelr_">twitter</A> / <A target="_blank" href="https://www.linkedin.com/in/neelr01/">linkedin</A> / <A target="_blank" href="https://www.instagram.com/neelr01/">insta</A> / <A target="_blank" href="https://www.facebook.com/neel.redkar.16/">facebook</A>
+            </span>
+        </Box>
+    </>
     )
 }
 
 let ActiveLink: FC<Children> = ({ children, href, active = false }) => {
     return (
-        <Box sx={{
-            pr: 2,
-        }}
-        >
+        <Box>
             <Link style={{ textDecoration: "none" }} href={href ?? ""}>
                 <Text sx={{
                     color: active ? "primary" : "text",
