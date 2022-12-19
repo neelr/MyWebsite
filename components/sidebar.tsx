@@ -26,7 +26,7 @@ export default function Sidebar({ active }: { active: number }) {
             display: ["none", "block"],
         }}>
             {
-                [["Hello!", "/"], ["Projects"], ["Notebook", "https://notebook.neelr.dev"], ["Résume"]].map((item, index) => {
+                [["Hello!", "/"], ["Projects"], ["Résume", "/resume.pdf"]].map((item, index) => {
                     return (
                         <ActiveLink href={item[1] ?? `/${item[0].toLowerCase() === "home" ? "" : item[0].toLowerCase()
                             }`} active={active === index} key={index}>
