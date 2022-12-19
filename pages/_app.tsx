@@ -3,12 +3,14 @@ import "../styles/globals.css"
 
 import type { AppProps } from "next/app";
 import Head from "next/head";
-import { ThemeProvider } from "theme-ui";
+import { ThemeProvider } from "theme-ui"
 import { theme } from "../styles/theme";
+import Shrek from "../components/shrek";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
+      <Shrek />
       <Head>
         <title>@neelr</title>
         <script src='https://analytics.stacc.cc/api/script/CP5FbkTS998I'></script>
