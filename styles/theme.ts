@@ -7,9 +7,11 @@ export const theme = makeTheme({
     primary: "hsl(10, 80%, 50%)",
     secondary: "hsl(10, 60%, 50%)",
     highlight: "hsl(10, 40%, 90%)",
-    purple: "hsl(250, 60%, 30%)",
+    purple: "#3315ad",
+    lightPurple: "hsl(250, 60%, 30%)",
     muted: "hsl(10, 20%, 94%)",
     gray: "hsl(10, 20%, 50%)",
+    grayDark: "#5f403c",
   },
   fonts: {
     body: 'Times New Roman, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',

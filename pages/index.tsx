@@ -10,7 +10,7 @@ import { ReactTypical as Typer } from '@deadcoder0904/react-typical';
 import { useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} sx={{ ":visited": { color: "gray" } }} target="_blank" {...props} />;
+const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} sx={{ ":visited": { ":hover": { color: "grayDark" }, color: "gray" } }} target="_blank" {...props} />;
 
 type GithubRecentCommitData = {
   sha: string;
@@ -98,7 +98,7 @@ export default function Home({
         </Box>
         <hr />
         <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
-        <Text><BLink href={"https://github.com/neelr/MyWebsite"}>Source</BLink> | <BLink href={"https://neelr.netlify.app/"}>v1</BLink></Text>
+        <Text as="p"><BLink href={"https://github.com/neelr/MyWebsite"}>Source</BLink> | <BLink href={"https://neelr.netlify.app/"}>v1</BLink></Text>
         {confetti && <Typer steps={['—Thanks for scrolling through my site!', 1000, "—Made with <3 by neelr"]} />}
         <SpotifyBar date={date} spotifyData={spotifyData} />
         <Box>
