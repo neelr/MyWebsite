@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import Image from "next/image";
-import { Box, Link, Text } from "theme-ui";
+import { Box, Link, Text, Image as I } from "theme-ui";
 import Sidebar from "../components/sidebar";
 import { SpotifyBar } from "../components/spotifyBar";
 import { getLocation, Data as locationType } from "./api/getLocation";
@@ -89,7 +89,7 @@ export default function Home({
             <Box sx={{ display: "flex", flexDirection: "column", mb: 3, width: ["100%", "45%"] }} key={i}>
               <Link target={"_blank"} href={post.link}>
                 <Text as="h3" sx={{ textDecoration: "underline" }}>{post.title}</Text>
-                <Image src={post.image} width={320} height={180} alt={post.title} />
+                <I src={post.image} width={320} alt={post.title} />
                 <Text sx={{ color: "text" }} as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
                 <Text sx={{ color: "text" }} as="p">{post.tags.map((tag, i) => <span key={i}><BLink href={`https://notebook.neelr.dev/tags/${tag}`}>{`#${tag}`}</BLink>{i < post.tags.length - 1 ? " / " : ""}</span>)}</Text>
               </Link>
