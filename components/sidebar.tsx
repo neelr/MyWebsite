@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 import { Box, Text, Link as TLink } from "theme-ui";
@@ -25,6 +26,21 @@ export default function Sidebar({ active }: { active: number }) {
             width: ["90vw", "10vw"],
             display: ["none", "block"],
         }}>
+            <Box sx={{
+                width: "10vw",
+                display: "flex",
+            }}>
+                <Image src="/static/self.jpg" width={100} height={100} alt="Neel Redkar" style={{
+                    width: "8vw",
+                    height: "8vw",
+                    borderRadius: "50%",
+                    justifySelf: "center",
+                    marginTop: "10px",
+                    marginBottom: "10px",
+                    marginRight: "auto",
+                    marginLeft: "auto",
+                }} />
+            </Box>
             {
                 [["Hello!", "/"], ["Notebook", "https://notebook.neelr.dev"], ["Résume", "/resume.pdf"]].map((item, index) => {
                     return (
