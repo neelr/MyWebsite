@@ -14,7 +14,7 @@ export const theme = makeTheme({
     grayDark: "#5f403c",
   },
   fonts: {
-    body: 'Times New Roman, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
+    body: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif',
     heading: "inherit",
     monospace: "Menlo, monospace",
   },

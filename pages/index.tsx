@@ -86,7 +86,7 @@ export default function Home({
         <Text as="h2" mt="15px">Notebook Posts!</Text>
         <Box sx={{ flexWrap: "wrap", display: "flex" }}>
           {notebookFeed.map((post, i) => (
-            <Box sx={{ display: "flex", flexDirection: "column", mb: 3, width: ["100%", "45%"] }} key={i}>
+            <Box sx={{ display: "flex", flexDirection: "column", mb: 3, width: ["100%", "45%"], px: "2%" }} key={i}>
               <Link target={"_blank"} href={post.link}>
                 <Text as="h3" sx={{ textDecoration: "underline" }}>{post.title}</Text>
                 <I src={post.image} width={320} alt={post.title} />
