@@ -26,7 +26,7 @@ let spotifyToken = "";
 
 let getSong = async (): Promise<Song> => {
   let resp = await fetch(
-    "https://api.spotify.com/v1/me/player/currently-playing",
+    "https://api.spotify.com/v1/me/player/currently-playing?additional_types=episode",
     {
       headers: {
         Authorization: `Bearer ${spotifyToken}`,
@@ -48,7 +48,21 @@ let getSong = async (): Promise<Song> => {
       playlistName: "",
     };
   let song = await resp.json();
-
+  // check for podcast
+  if (song.item.type == "episode") {
+    return {
+      song: song.item.name,
+      artist: song.item.show.name,
+      album: song.item.show.publisher,
+      albumArt: song.item.images[0].url,
+      url: song.item.external_urls.spotify,
+      timestamp: song.timestamp,
+      progress: song.progress_ms,
+      duration: song.item.duration_ms,
+      playing: song.is_playing,
+      playlistUrl: song.context?.uri ?? null,
+    };
+  }
   return {
     song: song.item.name,
     artist: song.item.artists[0].name,
