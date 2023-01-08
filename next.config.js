@@ -3,7 +3,23 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ["i.scdn.co", "images.prismic.io"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "i.scdn.co",
+        port: "",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "images.prismic.io",
+        port: "",
+        pathname: "**",
+      },
+    ],
+  },
+  experimental: {
+    appDir: true,
   },
 };
 

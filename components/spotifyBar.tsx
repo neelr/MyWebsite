@@ -1,4 +1,5 @@
-import { GetServerSidePropsContext } from "next";
+'use client';
+
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Link, Text, Box } from "theme-ui";
