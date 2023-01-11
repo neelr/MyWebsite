@@ -115,14 +115,26 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let location = await getLocation();
   let github = await fetch('https://api.github.com/users/neelr/events/public?per_page=1');
   let githubData = await github.json();
-
-  let githubRecent: GithubRecentCommitData = {
-    repo: githubData[0].repo.name,
-    // clean url for ui
-    url: githubData[0].repo.url.replace("https://api.github.com/repos/", "https://github.com/"),
-    message: githubData[0].payload.commits[0].message,
-    date: githubData[0].created_at,
-    sha: githubData[0].payload.commits[0].sha,
+  let githubRecent: GithubRecentCommitData;
+  try {
+    githubRecent = {
+      repo: githubData[0].repo.name,
+      // clean url for ui
+      url: githubData[0].repo.url.replace("https://api.github.com/repos/", "https://github.com/"),
+      message: githubData[0].payload.commits[0].message,
+      date: githubData[0].created_at,
+      sha: githubData[0].payload.commits[0].sha,
+    }
+  }
+  catch {
+    // fallback 
+    githubRecent = {
+      repo: "neelr/MyWebsite",
+      url: "https://github.com/neelr/MyWebsite",
+      message: "test",
+      date: "",
+      sha: ""
+    }
   }
 
   let notebookRSS = await fetch('https://notebook.neelr.dev/feed_first5.json');
