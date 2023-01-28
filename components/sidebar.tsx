@@ -13,6 +13,7 @@ interface Children {
 const A = (props: any) => <TLink style={{ textDecoration: "underline" }} target="_blank" {...props} />;
 
 export default function Sidebar({ active }: { active: number }) {
+    const navigation = [["Hello!", "/"], ["Notebook", "https://notebook.neelr.dev"], ["Résume", "/resume.pdf"]]
     return (<>
         <Box sx={{
             borderTop: ["1px solid", 0],
@@ -42,7 +43,7 @@ export default function Sidebar({ active }: { active: number }) {
                 }} />
             </Box>
             {
-                [["Hello!", "/"], ["Notebook", "https://notebook.neelr.dev"], ["Résume", "/resume.pdf"]].map((item, index) => {
+                navigation.map((item, index) => {
                     return (
                         <ActiveLink href={item[1] ?? `/${item[0].toLowerCase() === "home" ? "" : item[0].toLowerCase()
                             }`} active={active === index} key={index}>
@@ -68,7 +69,7 @@ export default function Sidebar({ active }: { active: number }) {
         }}>
             <Box sx={{ display: "flex", flexDirection: "row" }}>
                 {
-                    [["Hello!", "/"], ["Projects"], ["Notebook", "https://notebook.neelr.dev"], ["Résume"]].map((item, index, a) => {
+                    navigation.map((item, index, a) => {
                         return (<Box sx={{ display: "flex" }} key={index}>
                             <ActiveLink href={item[1] ?? `/${item[0].toLowerCase() === "home" ? "" : item[0].toLowerCase()
                                 }`} active={active === index}>
