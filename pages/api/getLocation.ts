@@ -40,5 +40,5 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json(await getLocation(req.body.key));
+  res.status(200).json(await getLocation(req.query.key as string));
 }
