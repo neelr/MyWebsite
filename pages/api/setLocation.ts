@@ -24,8 +24,10 @@ async function checkAuth(req: NextApiRequest) {
 async function insertLocation(req: NextApiRequest) {
   const location = req.body.location;
   const weather = req.body.weather;
+  const lat = req.body.lat;
+  const lon = req.body.lon;
 
-  if (!location || !weather) {
+  if (!location || !weather || !lat || !lon) {
     throw new Error("Bad Request");
   }
 
@@ -33,6 +35,8 @@ async function insertLocation(req: NextApiRequest) {
     id: Date.now(),
     city: location,
     weather: weather,
+    lat: lat,
+    lon: lon,
   });
 }
 

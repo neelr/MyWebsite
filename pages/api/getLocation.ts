@@ -9,16 +9,17 @@ export type Data = {
   city: string;
   weather: string;
   error: PostgrestError | null;
+  coords?: {lat: number, lon: number};
 };
 
-export let getLocation = async (): Promise<Data> => {
+export let getLocation = async (key : string): Promise<Data> => {
   const { data, error } = await supabase
     .from("locations")
-    .select("city, weather")
+    .select("city, weather, lat, lon")
     .order("id", { ascending: false })
     .limit(1);
 
-  let resp: Data = { city: "", weather: "", error };
+  let resp: Data = { city: "", weather: "", coords:{lat:0, lon:0}, error };
 
   if (data) {
     resp = {
@@ -26,6 +27,10 @@ export let getLocation = async (): Promise<Data> => {
       weather: data[0].weather,
       error: null,
     };
+    
+    if (key == process.env.LOCATION_KEY) {
+      resp.coords = {lat: data[0].lat, lon: data[0].lon};
+    }
   }
 
   return resp;
@@ -35,5 +40,5 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json(await getLocation());
+  res.status(200).json(await getLocation(req.body.key));
 }
