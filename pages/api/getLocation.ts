@@ -8,7 +8,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export type Data = {
   city: string;
   weather: string;
-  error: PostgrestError | null;
+  error: PostgrestError | null | string;
   coords?: {lat: number, lon: number};
 };
 
@@ -30,7 +30,8 @@ export let getLocation = async (key = ""): Promise<Data> => {
 
     if (key == process.env.LOCATION_PRECISE_KEY) {
       resp.coords = {lat: data[0].lat, lon: data[0].lon};
-    }
+    } else if (key != "")
+      resp.error = "Invalid Key";
   }
 
   return resp;
