@@ -12,7 +12,7 @@ export type Data = {
   coords?: {lat: number, lon: number};
 };
 
-export let getLocation = async (key : string): Promise<Data> => {
+export let getLocation = async (key = ""): Promise<Data> => {
   const { data, error } = await supabase
     .from("locations")
     .select("city, weather, lat, lon")
@@ -27,8 +27,8 @@ export let getLocation = async (key : string): Promise<Data> => {
       weather: data[0].weather,
       error: null,
     };
-    
-    if (key == process.env.LOCATION_KEY) {
+
+    if (key == process.env.LOCATION_PRECISE_KEY) {
       resp.coords = {lat: data[0].lat, lon: data[0].lon};
     }
   }
