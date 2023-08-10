@@ -49,6 +49,7 @@ let getSong = async (): Promise<Song> => {
     };
   let song = await resp.json();
   // check for podcast
+  console.log(song)
   if (song.item.type == "episode") {
     return {
       song: song.item.name,
@@ -134,8 +135,10 @@ export let getSpotifyData = async (): Promise<Data> => {
       }
     );
     let playlistData = await playlist.json();
-    song.playlistName = playlistData.name;
-    song.playlistUrl = playlistData.external_urls.spotify;
+    if (!playlistData.error) {
+      song.playlistName = playlistData.name;
+      song.playlistUrl = playlistData.external_urls.spotify;
+    }
   }
   let device = await getDevice();
   return { ...song, device };
