@@ -79,7 +79,7 @@ export default function Home({
         <br />
         <Text as="p" sx={{ fontStyle: "italic" }}>some cool things i&apos;ve done:</Text>
         <Text as="ul">
-          <Text as="li">One of the youngest people to present <BLink href="https://x.com/_neelr_/status/1723092152685854909?s=20">completely independent research @ NeurIPS</BLink> (also with an <BLink href="https://marginalrevolution.com/marginalrevolution/2024/01/emergent-ventures-31st-cohort.html">EV Grant</BLink>)</Text>
+          <Text as="li">At 18 presented <BLink href="https://x.com/_neelr_/status/1723092152685854909?s=20">a completely independent research @ NeurIPS</BLink> as one of the youngest researchers (funded by <BLink href="https://marginalrevolution.com/marginalrevolution/2024/01/emergent-ventures-31st-cohort.html">an EV Grant</BLink>)</Text>
           <Text as="li">Got <BLink href="https://www.davidsongifted.org/gifted-programs/fellows-scholarship/fellows/current-and-past-fellows/2023-fellows/2023-davidson-fellow-neel-redkar/">a $25k scholarship for creating new AI algorithms</BLink> to make artificial photosynthesis & carbon capture a reality (<BLink href="https://s.neelr.dev/carbnn-research-paper">presented @ AAAI23</BLink>)</Text>
           <Text as="li">Raised $80k+ <BLink href="https://dvhacks-iii.devpost.com/">for</BLink> <BLink href="https://angelhacks.org">various</BLink> <BLink href="https://summer.hackclub.com">hackathons</BLink> while also raising capital (& developing) for a <BLink href="https://nujjet.vercel.app">startup new approach to neuromodulation</BLink></Text>
           <Text as="li">(for math nerds I also was the lead dev at the start for <BLink href="https://sinerider.hackclub.dev">sinerider, a game supported by 3Blue1Brown, my fav</BLink>)</Text>
