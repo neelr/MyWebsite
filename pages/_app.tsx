@@ -6,11 +6,13 @@ import Head from "next/head";
 import { ThemeProvider } from "theme-ui"
 import { theme } from "../styles/theme";
 import Shrek from "../components/shrek";
+import { Analytics } from '@vercel/analytics/react';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
       <Shrek />
+      <Analytics />
       <Head>
         <title>@neelr</title>
         <script src='https://analytics.stacc.cc/api/script/CP5FbkTS998I'></script>
