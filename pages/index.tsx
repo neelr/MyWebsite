@@ -120,7 +120,28 @@ export default function Home({
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let quote = await getQuote();
-  let spotifyData = await getSpotifyData();
+  /*  song: string;
+  artist: string;
+  album: string;
+  albumArt: string;
+  url: string;
+  timestamp: number;
+  progress: number;
+  duration: number; */
+  let spotifyData: spotifyType = {
+    song: "nothing",
+    artist: "nothing",
+    album: "nothing",
+    albumArt: "nothing",
+    url: "nothing",
+    timestamp: 0,
+    progress: -100,
+    duration: 0,
+    device: {
+      name: "nothing",
+      type: "nothing",
+    }
+  }
   let location = await getLocation();
   let github = await fetch('https://api.github.com/users/neelr/events/public?per_page=1');
   let githubData = await github.json();
