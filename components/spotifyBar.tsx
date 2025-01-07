@@ -2,17 +2,23 @@ import React, { useEffect, useState } from 'react';
 import Image from "next/image";
 import { Link, Text, Box } from "theme-ui";
 import { BsSpotify } from "react-icons/bs";
+import { Data as SpotifyData } from "../pages/api/spotify";
 
 const PROFILE = "https://open.spotify.com/user/neel.redkar";
 
-const limiter = (str: string, limit = 20) => {
+interface SpotifyBarProps {
+    spotifyData: SpotifyData;
+    date: number;
+}
+
+const limiter = (str: string, limit: number = 20): string => {
     if (str.length > limit) {
         return str.substring(0, limit) + "...";
     }
     return str;
 };
 
-function pad(d: number) {
+function pad(d: number): string {
     return d < 10 ? "0" + d.toString() : d.toString();
 }
 
@@ -20,18 +26,18 @@ export function SpotifyBar({
     spotifyData,
     date,
     ...props
-}: any) {
-    const [spotifyProgress, setProgress] = useState(spotifyData.progress);
-    const [spotifyDataS, setSpotifyDataS] = useState(spotifyData);
-    const [isVisible, setIsVisible] = useState(true);
-    const [isChanging, setIsChanging] = useState(false);
-    const [previousDuration, setPreviousDuration] = useState(spotifyData.duration);
+}: SpotifyBarProps): JSX.Element {
+    const [spotifyProgress, setProgress] = useState<number>(spotifyData.progress);
+    const [spotifyDataS, setSpotifyDataS] = useState<SpotifyData>(spotifyData);
+    const [isVisible, setIsVisible] = useState<boolean>(true);
+    const [isChanging, setIsChanging] = useState<boolean>(false);
+    const [previousDuration, setPreviousDuration] = useState<number>(spotifyData.duration);
 
     useEffect(() => {
         let intervalId = setInterval(() => {
             fetch("/api/spotify")
                 .then((res) => res.json())
-                .then((d) => {
+                .then((d: SpotifyData) => {
                     date = Date.now();
                     setProgress(d.progress);
 
@@ -56,18 +62,16 @@ export function SpotifyBar({
             clearInterval(intervalId);
             clearInterval(intervalId2);
         };
-    }, [previousDuration]);
+    }, [previousDuration, date, spotifyDataS]);
 
-    const handleTransition = (newData) => {
+    const handleTransition = (newData: SpotifyData): void => {
         setIsChanging(true);
         setIsVisible(false);
 
-        // Wait for slide-out animation to complete before changing content
         setTimeout(() => {
             setSpotifyDataS(newData);
             setIsVisible(true);
 
-            // Reset changing state after animations complete
             setTimeout(() => {
                 setIsChanging(false);
             }, 300);
