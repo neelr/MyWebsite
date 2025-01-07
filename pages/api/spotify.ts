@@ -49,7 +49,6 @@ let getSong = async (): Promise<Song> => {
     };
   let song = await resp.json();
   // check for podcast
-  console.log(song)
   if (song.item.type == "episode") {
     return {
       song: song.item.name,

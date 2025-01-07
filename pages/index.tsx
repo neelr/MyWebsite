@@ -143,8 +143,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
   let location = await getLocation();
-  let github = await fetch('https://api.github.com/users/neelr/events/public?per_page=1');
+  let github = await fetch('https://api.github.com/users/neelr/events/public');
   let githubData = await github.json();
+  // filter for commits
+  githubData = githubData.filter((event: any) => event.type === "PushEvent");
   let githubRecent: GithubRecentCommitData;
   try {
     githubRecent = {
