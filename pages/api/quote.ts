@@ -1,17 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-/* Example Response
-{
-  "quoteText":"The more light you allow within you, the brighter the world you live in will be.", 
-  "quoteAuthor":"Shakti Gawain", 
-  "senderName":"", 
-  "senderLink":"", 
-  "quoteLink":"http://forismatic.com/en/d386119c9d/"
-} */
-type QuoteData = {
-  quoteText: string;
-  quoteAuthor: string;
-  senderName: string;
-  quoteLink: string;
+import path from "path";
+import fs from "fs";
+
+export type Quote = {
+  text: string;
+  author: string;
 };
 
 export type Data = {
@@ -19,41 +12,30 @@ export type Data = {
   author: string;
 };
 
-let qFallback: QuoteData;
-
-fetch("http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en")
-  .then((r) => r.json())
-  .then((data: QuoteData) => (qFallback = data));
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  let data: Data = await getQuote();
-  res.status(200).json(data);
+  const quote = await getQuote();
+  res.status(200).json(quote);
 }
 
 /**
- * Gets a random quote from the Forismatic API.
- * @returns An object containing the quote and the author.
+ * Gets a random quote from the local quotes.json file
+ * @returns An object containing the quote text and author
  */
-export let getQuote = async () => {
-  let data: QuoteData;
-  // Fetch the quote from the API, or use the fallback if the API is not available.
-  try {
-    let q = await fetch(
-      "http://api.forismatic.com/api/1.0/?method=getQuote&format=json&lang=en"
-    );
-    data = await q.json();
+export async function getQuote(): Promise<Data> {
+  // Read the quotes file
+  const filePath = path.join(process.cwd(), "public", "quotes.json");
+  const fileContents = fs.readFileSync(filePath, "utf8");
+  const quotes: Quote[] = JSON.parse(fileContents);
 
-    if (!data.quoteText) throw new Error("Invalid quote data");
-  } catch (e) {
-    data = qFallback;
-  }
+  // Get a random quote
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  const randomQuote = quotes[randomIndex];
 
-  // Return the quote and author & check if anonyomous
   return {
-    quote: data.quoteText,
-    author: data.quoteAuthor || "Anonymous",
+    quote: randomQuote.text,
+    author: randomQuote.author || "Anonymous",
   };
-};
+}
