@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Image from "next/image";
 import { Link, Text, Box } from "theme-ui";
-import { BsSpotify } from "react-icons/bs";
 import { Data as SpotifyData } from "../pages/api/spotify";
 
 const PROFILE = "https://open.spotify.com/user/neel.redkar";
@@ -32,6 +31,7 @@ export function SpotifyBar({
     const [isVisible, setIsVisible] = useState<boolean>(true);
     const [isChanging, setIsChanging] = useState<boolean>(false);
     const [previousDuration, setPreviousDuration] = useState<number>(spotifyData.duration);
+    const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
 
     useEffect(() => {
         let intervalId = setInterval(() => {
@@ -41,7 +41,6 @@ export function SpotifyBar({
                     date = Date.now();
                     setProgress(d.progress);
 
-                    // Handle transition when duration status changes
                     if ((previousDuration > 0) !== (d.duration > 0)) {
                         handleTransition(d);
                     } else {
@@ -65,89 +64,149 @@ export function SpotifyBar({
     }, [previousDuration, date, spotifyDataS]);
 
     const handleTransition = (newData: SpotifyData): void => {
-        setIsChanging(true);
-        setIsVisible(false);
-
-        setTimeout(() => {
-            setSpotifyDataS(newData);
-            setIsVisible(true);
+        if ((spotifyDataS.duration > 0) !== (newData.duration > 0)) {
+            setIsChanging(true);
+            setIsVisible(false);
+            setShouldAnimate(true);
 
             setTimeout(() => {
-                setIsChanging(false);
-            }, 300);
-        }, 300);
+                setSpotifyDataS(newData);
+                setIsVisible(true);
+
+                setTimeout(() => {
+                    setIsChanging(false);
+                    setShouldAnimate(false);
+                }, 800);
+            }, 800);
+        } else {
+            setSpotifyDataS(newData);
+        }
     };
 
-    return (
+    // Green Square Icon Component
+    const IconBox = () => (
+        <Link
+            href={PROFILE}
+            target="_blank"
+            sx={{
+                position: 'fixed',
+                bottom: '20px',
+                left: '20px',
+                width: '32px',
+                height: '32px',
+                bg: '#1DB954',
+                borderRadius: '4px',
+                display: spotifyDataS.duration > 0 ? 'none' : 'block',
+                transition: 'transform 0.2s ease',
+                '&:hover': {
+                    transform: 'scale(1.1)',
+                },
+                animation: shouldAnimate ? (
+                    isVisible
+                        ? "roll-in 0.3s ease-out forwards"
+                        : "roll-out 0.3s ease-in forwards"
+                ) : 'none',
+                '@keyframes roll-out': {
+                    '0%': {
+                        transform: 'translateX(0) rotate(0deg)',
+                    },
+                    '100%': {
+                        transform: 'translateX(-100px) rotate(-360deg)',
+                    }
+                },
+                '@keyframes roll-in': {
+                    '0%': {
+                        transform: 'translateX(-100px) rotate(0deg)',
+                    },
+                    '100%': {
+                        transform: 'translateX(0) rotate(360deg)',
+                    }
+                }
+            }}
+        />
+    );
+
+    // Main Content Component
+    const ContentBox = () => (
         <Box
             sx={{
-                flexDirection: "column",
-                position: "fixed",
-                bottom: 0,
-                left: 0,
+                position: 'fixed',
+                bottom: '20px',
+                left: '0',
                 p: 2,
-                mb: 3,
                 pl: 3,
-                bg: spotifyDataS.duration > 0 ? "highlight" : "transparent",
-                transform: `translateX(${isVisible ? '0' : '-100%'})`,
-                transition: "all 0.3s ease-in-out",
+                pr: 3,
+                bg: 'highlight',
+                visibility: spotifyDataS.duration > 0 ? 'visible' : 'hidden',
+                animation: shouldAnimate && spotifyDataS.duration > 0
+                    ? (isVisible ? 'slide-in 0.8s ease-in-out forwards' : 'slide-out 0.8s ease-in-out forwards')
+                    : 'none',
+                transform: !shouldAnimate && spotifyDataS.duration > 0 ? 'translateX(0)' : undefined,
+                '@keyframes slide-in': {
+                    '0%': {
+                        transform: 'translateX(-100%)',
+                    },
+                    '100%': {
+                        transform: 'translateX(0)',
+                    }
+                },
+                '@keyframes slide-out': {
+                    '0%': {
+                        transform: 'translateX(0)',
+                    },
+                    '100%': {
+                        transform: 'translateX(-100%)',
+                    }
+                },
+                borderRadius: '0 8px 8px 0'
             }}
         >
-            {spotifyDataS.duration > 0 ? (
-                <>
-                    <Text as="p">
-                        <Link href={PROFILE}>neelr</Link> listening on {spotifyDataS.device.name}
-                        {spotifyDataS.playlistName ? (
-                            <span>
-                                {" "}to{" "}
-                                <Link
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href={spotifyDataS.playlistUrl}
-                                >
-                                    {limiter(spotifyDataS.playlistName)}
-                                </Link>
-                            </span>
-                        ) : ""}:
-                    </Text>
-                    <Link
-                        href={spotifyDataS.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{ display: "flex", flexDirection: "column" }}
+            <Text as="p">
+                <Link href={PROFILE}>neelr</Link> listening on {spotifyDataS.device.name}
+                {spotifyDataS.playlistName ? (
+                    <span>
+                        {" "}to{" "}
+                        <Link
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={spotifyDataS.playlistUrl}
+                        >
+                            {limiter(spotifyDataS.playlistName)}
+                        </Link>
+                    </span>
+                ) : ""}:
+            </Text>
+            <Link
+                href={spotifyDataS.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ display: "flex", flexDirection: "column" }}
+            >
+                <Box sx={{ display: "flex" }}>
+                    <Image
+                        src={spotifyDataS.albumArt}
+                        width={40}
+                        height={40}
+                        alt={spotifyDataS.album}
+                    />
+                    <Text
+                        my="auto"
+                        mx="10px"
                     >
-                        <Box sx={{ display: "flex" }}>
-                            <Image
-                                src={spotifyDataS.albumArt}
-                                width={40}
-                                height={40}
-                                alt={spotifyDataS.album}
-                            />
-                            <Text
-                                my="auto"
-                                mx="10px"
-                            >
-                                {`${limiter(spotifyDataS.song)}, ${limiter(spotifyDataS.artist)}`}
-                            </Text>
-                            <Text my="auto">
-                                {`${Math.floor(spotifyProgress / 1000 / 60)}:${pad(Math.floor((spotifyProgress / 1000) % 60))} / ${Math.floor(spotifyDataS.duration / 1000 / 60)}:${pad(Math.floor((spotifyDataS.duration / 1000) % 60))}`}
-                            </Text>
-                        </Box>
-                    </Link>
-                </>
-            ) : (
-                <Link
-                    target="_blank"
-                    href={PROFILE}
-                    sx={{
-                        fontSize: 4,
-                        m: "auto",
-                        display: "flex",
-                    }}
-                >
-                    <BsSpotify />
-                </Link>
-            )}
+                        {`${limiter(spotifyDataS.song)}, ${limiter(spotifyDataS.artist)}`}
+                    </Text>
+                    <Text my="auto">
+                        {`${Math.floor(spotifyProgress / 1000 / 60)}:${pad(Math.floor((spotifyProgress / 1000) % 60))} / ${Math.floor(spotifyDataS.duration / 1000 / 60)}:${pad(Math.floor((spotifyDataS.duration / 1000) % 60))}`}
+                    </Text>
+                </Box>
+            </Link>
         </Box>
+    );
+
+    return (
+        <>
+            <IconBox />
+            <ContentBox />
+        </>
     );
 }

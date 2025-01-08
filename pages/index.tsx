@@ -132,7 +132,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     song: "nothing",
     artist: "nothing",
     album: "nothing",
-    albumArt: "nothing",
+    albumArt: "",
     url: "nothing",
     timestamp: 0,
     progress: -100,
