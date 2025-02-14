@@ -111,7 +111,8 @@ export default function Home({
         {confetti && <Typer steps={['—Thanks for scrolling through my site!', 1000, "—Made with <3 by neelr"]} />}
         <SpotifyBar date={date} spotifyData={spotifyData} />
         <Box>
-          <Image src={"/hippo.png"} width={200} height={200} alt="hippo" />
+          {/* <Image src={"/hippo.png"} width={200} height={200} alt="hippo" /> */}
+          <iframe src="https://web-dit.vercel.app/embed.html" width={190} height={190} frameBorder={0} />
         </Box>
       </Box>
     </Box >

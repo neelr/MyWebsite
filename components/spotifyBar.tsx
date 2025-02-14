@@ -95,7 +95,7 @@ export function SpotifyBar({
                 width: '32px',
                 height: '32px',
                 bg: '#1DB954',
-                borderRadius: '4px',
+                borderRadius: '2px',
                 display: spotifyDataS.duration > 0 ? 'none' : 'block',
                 transition: 'transform 0.2s ease',
                 '&:hover': {
