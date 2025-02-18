@@ -111,8 +111,48 @@ export default function Home({
         {confetti && <Typer steps={['—Thanks for scrolling through my site!', 1000, "—Made with <3 by neelr"]} />}
         <SpotifyBar date={date} spotifyData={spotifyData} />
         <Box>
-          {/* <Image src={"/hippo.png"} width={200} height={200} alt="hippo" /> */}
-          <iframe src="https://web-dit.vercel.app/embed.html" width={190} height={190} frameBorder={0} />
+          <iframe
+            src="https://web-dit.vercel.app/embed.html"
+            width={190}
+            height={190}
+            frameBorder={0}
+            onLoad={() => {
+              const STEPS = 32;
+              let step = 0;
+              let animationComplete = false;
+
+              // Create the event listener function
+              const handleMessage = (event: MessageEvent) => {
+                if (event.data.type === 'canvasUpdate') {
+                  // Always update favicon
+                  const favicon = document.querySelector("link[rel='icon']");
+                  if (favicon) {
+                    favicon.setAttribute('href', event.data.dataURL);
+                  }
+
+                  // Only update title if animation isn't complete
+                  if (!animationComplete) {
+                    const frames = ['.', '..', '...'];
+                    if (step >= STEPS - 1) {
+                      document.title = "@neelr";
+                      animationComplete = true;
+                    } else {
+                      document.title = frames[step % frames.length];
+                      step++;
+                    }
+                  }
+                }
+              };
+
+              // Add event listener
+              window.addEventListener('message', handleMessage);
+
+              // Clean up on component unmount
+              return () => {
+                window.removeEventListener('message', handleMessage);
+              };
+            }}
+          />
         </Box>
       </Box>
     </Box >
