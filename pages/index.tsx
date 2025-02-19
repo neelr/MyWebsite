@@ -110,8 +110,10 @@ export default function Home({
         <Text as="p"><BLink href={"https://github.com/neelr/MyWebsite"}>Source</BLink> | <BLink href={"https://neelr.netlify.app/"}>v1</BLink></Text>
         {confetti && <Typer steps={['—Thanks for scrolling through my site!', 1000, "—Made with <3 by neelr"]} />}
         <SpotifyBar date={date} spotifyData={spotifyData} />
-        <Box>
+        <Box onClick={() => window.open('https://web-dit.vercel.app', '_blank', 'noopener,noreferrer')}
+          sx={{ cursor: 'pointer', width: 190, height: 190 }}>
           <iframe
+            style={{ pointerEvents: 'none' }}
             src="https://web-dit.vercel.app/embed.html"
             width={190}
             height={190}
