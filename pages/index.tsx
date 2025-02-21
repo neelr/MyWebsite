@@ -188,25 +188,33 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   let location = await getLocation();
   let github = await fetch('https://api.github.com/users/neelr/events/public', { next: { revalidate: 1800 } });
   let githubData = await github.json();
-  // filter for commits
-  githubData = githubData.filter((event: any) => event.type === "PushEvent");
+  // filter for commits and add fallback if no data
+  githubData = Array.isArray(githubData) ? githubData.filter((event: any) => event.type === "PushEvent") : [];
+
   let githubRecent: GithubRecentCommitData;
-  try {
-    githubRecent = {
-      repo: githubData[0].repo.name,
-      // clean url for ui
-      url: githubData[0].repo.url.replace("https://api.github.com/repos/", "https://github.com/"),
-      message: githubData[0].payload.commits[0].message,
-      date: githubData[0].created_at,
-      sha: githubData[0].payload.commits[0].sha,
+  if (githubData.length > 0) {
+    try {
+      githubRecent = {
+        repo: githubData[0].repo.name,
+        url: githubData[0].repo.url.replace("https://api.github.com/repos/", "https://github.com/"),
+        message: githubData[0].payload.commits[0].message,
+        date: githubData[0].created_at,
+        sha: githubData[0].payload.commits[0].sha,
+      }
+    } catch {
+      githubRecent = {
+        repo: "neelr/MyWebsite",
+        url: "https://github.com/neelr/MyWebsite",
+        message: "No recent commits",
+        date: "",
+        sha: ""
+      }
     }
-  }
-  catch {
-    // fallback 
+  } else {
     githubRecent = {
       repo: "neelr/MyWebsite",
       url: "https://github.com/neelr/MyWebsite",
-      message: "test",
+      message: "No recent commits",
       date: "",
       sha: ""
     }
