@@ -49,6 +49,44 @@ export default function Home({
   const { scrollYProgress } = useScroll();
   const [confetti, setConfetti] = useState(false);
 
+  // Add global message handler for favicon updates
+  useEffect(() => {
+    const STEPS = 32;
+    let step = 0;
+    let animationComplete = false;
+
+    // Create the event listener function
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data.type === 'canvasUpdate') {
+        // Always update favicon
+        const favicon = document.querySelector("link[rel='icon']");
+        if (favicon) {
+          favicon.setAttribute('href', event.data.dataURL);
+        }
+
+        // Only update title if animation isn't complete
+        if (!animationComplete) {
+          const frames = ['.', '..', '...'];
+          if (step >= STEPS - 1) {
+            document.title = "@neelr";
+            animationComplete = true;
+          } else {
+            document.title = frames[step % frames.length];
+            step++;
+          }
+        }
+      }
+    };
+
+    // Add event listener
+    window.addEventListener('message', handleMessage);
+
+    // Clean up on component unmount
+    return () => {
+      window.removeEventListener('message', handleMessage);
+    };
+  }, []);
+
   useEffect(() => {
     return scrollYProgress.onChange((latest) => {
       if (latest > 0.9) {
@@ -57,107 +95,97 @@ export default function Home({
       }
     })
   }, [scrollYProgress])
+
   return (
-    <Box sx={{ display: "flex", mt: ["0px", "100px"], flexDirection: ["column", "row"] }}>
-      <Sidebar active={0} />
-      <Box
-        sx={{
-          mx: "auto",
-          ml: ["auto", 3],
-          width: ["90vw", "65vw"],
-          flexDirection: "column",
-        }}
-      >
-        <Text as="h3">Hi, I&rsquo;m Neel<Typer steps={[".", 2000, ', ...a programmer?', 2000, ', ...a philosopher?', 1700, ', ...a founder?', 2000, ', a maker.', 1000]}
-          wrapper="span" /></Text>
-        <Text as="p" sx={{ fontStyle: "italic" }}>
-          {quote.quote}
-        </Text>
-        <Text as="p" sx={{ fontStyle: "italic" }}>
-          - {quote.author}
-        </Text>
-        <br />
-        <Text as="p" sx={{ fontStyle: "italic" }}>some cool things i&apos;ve done:</Text>
-        <Text as="ul">
-          <Text as="li">At 18 presented <BLink href="https://x.com/_neelr_/status/1723092152685854909?s=20">a completely independent research paper @ NeurIPS</BLink> as one of the youngest researchers (funded by <BLink href="https://marginalrevolution.com/marginalrevolution/2024/01/emergent-ventures-31st-cohort.html">an EV Grant</BLink>)</Text>
-          <Text as="li">Got <BLink href="https://www.davidsongifted.org/gifted-programs/fellows-scholarship/fellows/current-and-past-fellows/2023-fellows/2023-davidson-fellow-neel-redkar/">a $25k scholarship for creating new AI algorithms</BLink> to make artificial photosynthesis & carbon capture a reality (<BLink href="https://s.neelr.dev/carbnn-research-paper">presented @ AAAI23</BLink>)</Text>
-          <Text as="li">Raised $80k+ <BLink href="https://dvhacks-iii.devpost.com/">for</BLink> <BLink href="https://angelhacks.org">various</BLink> <BLink href="https://summer.hackclub.com">hackathons</BLink> while also founding & raising for <BLink href="https://nujjet.vercel.app">a startup using RL for a new approach to neuromodulation</BLink></Text>
-          <Text as="li">(for math nerds I also was the lead dev at the start for <BLink href="https://sinerider.hackclub.dev">sinerider, a game supported by 3Blue1Brown, my fav</BLink>)</Text>
-          <Text as="li">Now the youngest intern @ Notion (AI)!</Text>
-        </Text>
-        <br />
-        <Text as="p">Currently a sophmore at UCLA, lover of code, and avid exclamation mark (over?) user! As a <BLink href="https://notebook.neelr.dev/tags/philosophy">philosophy nerd</BLink>, I tend to <BLink href="https://s.neelr.dev/carbnn-research-paper">research the boundaries of AI</BLink>. Though a maker at heart, I am a (self) certified generalist—<BLink href="https://concussionstorywall.org/">web dev</BLink>, <BLink href="https://sinerider.com">game dev</BLink>, <BLink href="https://tmpltr.now.sh">systems</BLink>, & <BLink href="https://notebook.neelr.dev/stories/animelstm">anime</BLink>.</Text>
-        <Text as="p" mt="10px">It all started with an invitation to <BLink href="https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next19-welcome-to-the-future-of-digital-transformation">Next19</BLink>—my first (<BLink href="https://nextjs.org/conf">not</BLink> <BLink href="https://aaai.org/Conferences/AAAI-23/">last</BLink>) conference—which taught me one of my favorite ideas, <i>&quot;don&rsquo;t let <BLink href="https://notebook.neelr.dev/stories/education">school</BLink> take away from your <BLink href="https://notebook.neelr.dev/stories/how-to-learn">education</BLink>&quot;</i>.</Text>
-        <Text as="p" mt="10px">Interested in interacting with the &quot;real world&quot;, I became an active member of <BLink href="https://hackclub.com">HackClub</BLink>, <BLink href="https://event.codeday.org/ba">organizing</BLink> <BLink href="https://dvhacks-3.devpost.com/">many</BLink> <BLink href="https://archive.vn/Q0LyP">events</BLink> (including <BLink href="https://angelhacks.org">AngelHacks</BLink> & the <BLink href="https://summer.hackclub.com">Summer of Making</BLink>). IMO I made <BLink href="https://github.com/neelr/BackFiler">some</BLink> <BLink href="https://github.com/neelr/goJSON">cool</BLink> <BLink href="https://github.com/neelr/LeishNN">projects</BLink> <BLink href="https://github.com/neelr/flappyai">too</BLink>.</Text>
-        <Text as="p" mt="10px">Blasting off I gathered experiences—some <BLink href="https://roambee.com">crazy</BLink> <BLink href="https://fbk.eu">AI</BLink> <BLink href="https://teachaids.org">internships</BLink>, took part in <BLink href="https://notebook.neelr.dev/stories/the-hacker-zephyr.">the worlds longest (3,502 mile-long) hackathon</BLink>, and <BLink href="https://github.com/neelr/clamp">independent research on turning CO2 into fuel @ NeurIPS</BLink>! I even created <BLink href="https://nujjet.vercel.app/">my first startup</BLink> where we <BLink href="https://www.conradchallenge.org/2021-summit-awards#block-6efb5b1ca96f674c86ca">got funding</BLink>!</Text>
-        <Text as="p" mt="10px">If you find any of this interesting, or just want to talk, hit me up with an email with something resembling my name [at] this domain! I&rsquo;m trying to read more, so recommend me some books/music!</Text>
-        <Text as="p" mt="10px">Most recently caught &quot;{githubRecent.message}&quot;-ing @ <BLink href={githubRecent.url}>{githubRecent.repo}</BLink></Text>
-        <Text as="h2" mt="15px">Notebook Posts!</Text>
-        <Box sx={{ flexWrap: "wrap", display: "flex" }}>
-          {notebookFeed.map((post, i) => (
-            <Box sx={{ display: "flex", flexDirection: "column", mb: 3, width: ["100%", "45%"], px: "2%" }} key={i}>
-              <Link target={"_blank"} href={post.link}>
-                <Text as="h3" sx={{ textDecoration: "underline" }}>{post.title}</Text>
-                <I src={post.image} width={320} alt={post.title} />
-                <Text sx={{ color: "text" }} as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
-                <Text sx={{ color: "text" }} as="p">{post.tags.map((tag, i) => <span key={i}><BLink href={`https://notebook.neelr.dev/tags/${tag}`}>{`#${tag}`}</BLink>{i < post.tags.length - 1 ? " / " : ""}</span>)}</Text>
-              </Link>
-            </Box>
-          ))}
-        </Box>
-        <hr />
-        <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
-        <Text as="p"><BLink href={"https://github.com/neelr/MyWebsite"}>Source</BLink> | <BLink href={"https://neelr.netlify.app/"}>v1</BLink></Text>
-        {confetti && <Typer steps={['—Thanks for scrolling through my site!', 1000, "—Made with <3 by neelr"]} />}
-        <SpotifyBar date={date} spotifyData={spotifyData} />
-        <Box onClick={() => window.open('https://web-dit.vercel.app', '_blank', 'noopener,noreferrer')}
-          sx={{ cursor: 'pointer', width: 190, height: 190 }}>
-          <iframe
-            style={{ pointerEvents: 'none' }}
-            src="https://web-dit.vercel.app/embed.html"
-            width={190}
-            height={190}
-            frameBorder={0}
-            onLoad={() => {
-              const STEPS = 32;
-              let step = 0;
-              let animationComplete = false;
+    <>
+      {/* Hidden iframe at the top of the component for early loading and favicon updates */}
+      <div style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: '1px',
+        height: '1px',
+        opacity: 0,
+        visibility: 'hidden',
+        pointerEvents: "none",
+        overflow: "hidden",
+        zIndex: -1
+      }}>
+        <iframe
+          src="https://web-dit.vercel.app/embed.html"
+          width={10}
+          height={10}
+          frameBorder={0}
+          title="Hidden hippo canvas for favicon updates"
+        />
+      </div>
 
-              // Create the event listener function
-              const handleMessage = (event: MessageEvent) => {
-                if (event.data.type === 'canvasUpdate') {
-                  // Always update favicon
-                  const favicon = document.querySelector("link[rel='icon']");
-                  if (favicon) {
-                    favicon.setAttribute('href', event.data.dataURL);
-                  }
-
-                  // Only update title if animation isn't complete
-                  if (!animationComplete) {
-                    const frames = ['.', '..', '...'];
-                    if (step >= STEPS - 1) {
-                      document.title = "@neelr";
-                      animationComplete = true;
-                    } else {
-                      document.title = frames[step % frames.length];
-                      step++;
-                    }
-                  }
-                }
-              };
-
-              // Add event listener
-              window.addEventListener('message', handleMessage);
-
-              // Clean up on component unmount
-              return () => {
-                window.removeEventListener('message', handleMessage);
-              };
-            }}
-          />
+      <Box sx={{ display: "flex", mt: ["0px", "100px"], flexDirection: ["column", "row"] }}>
+        <Sidebar active={0} />
+        <Box
+          sx={{
+            mx: "auto",
+            ml: ["auto", 3],
+            width: ["90vw", "65vw"],
+            flexDirection: "column",
+          }}
+        >
+          <Text as="h3">Hi, I&rsquo;m Neel<Typer steps={[".", 2000, ', ...a programmer?', 2000, ', ...a philosopher?', 1700, ', ...a founder?', 2000, ', a maker.', 1000]}
+            wrapper="span" /></Text>
+          <Text as="p" sx={{ fontStyle: "italic" }}>
+            {quote.quote}
+          </Text>
+          <Text as="p" sx={{ fontStyle: "italic" }}>
+            - {quote.author}
+          </Text>
+          <br />
+          <Text as="p" sx={{ fontStyle: "italic" }}>some cool things i&apos;ve done:</Text>
+          <Text as="ul">
+            <Text as="li">At 18 presented <BLink href="https://x.com/_neelr_/status/1723092152685854909?s=20">a completely independent research paper @ NeurIPS</BLink> as one of the youngest researchers (funded by <BLink href="https://marginalrevolution.com/marginalrevolution/2024/01/emergent-ventures-31st-cohort.html">an EV Grant</BLink>)</Text>
+            <Text as="li">Got <BLink href="https://www.davidsongifted.org/gifted-programs/fellows-scholarship/fellows/current-and-past-fellows/2023-fellows/2023-davidson-fellow-neel-redkar/">a $25k scholarship for creating new AI algorithms</BLink> to make artificial photosynthesis & carbon capture a reality (<BLink href="https://s.neelr.dev/carbnn-research-paper">presented @ AAAI23</BLink>)</Text>
+            <Text as="li">Raised $80k+ <BLink href="https://dvhacks-iii.devpost.com/">for</BLink> <BLink href="https://angelhacks.org">various</BLink> <BLink href="https://summer.hackclub.com">hackathons</BLink> while also founding & raising for <BLink href="https://nujjet.vercel.app">a startup using RL for a new approach to neuromodulation</BLink></Text>
+            <Text as="li">(for math nerds I also was the lead dev at the start for <BLink href="https://sinerider.hackclub.dev">sinerider, a game supported by 3Blue1Brown, my fav</BLink>)</Text>
+            <Text as="li">Now the youngest intern @ Notion (AI)!</Text>
+          </Text>
+          <br />
+          <Text as="p">Currently a sophmore at UCLA, lover of code, and avid exclamation mark (over?) user! As a <BLink href="https://notebook.neelr.dev/tags/philosophy">philosophy nerd</BLink>, I tend to <BLink href="https://s.neelr.dev/carbnn-research-paper">research the boundaries of AI</BLink>. Though a maker at heart, I am a (self) certified generalist—<BLink href="https://concussionstorywall.org/">web dev</BLink>, <BLink href="https://sinerider.com">game dev</BLink>, <BLink href="https://tmpltr.now.sh">systems</BLink>, & <BLink href="https://notebook.neelr.dev/stories/animelstm">anime</BLink>.</Text>
+          <Text as="p" mt="10px">It all started with an invitation to <BLink href="https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next19-welcome-to-the-future-of-digital-transformation">Next19</BLink>—my first (<BLink href="https://nextjs.org/conf">not</BLink> <BLink href="https://aaai.org/Conferences/AAAI-23/">last</BLink>) conference—which taught me one of my favorite ideas, <i>&quot;don&rsquo;t let <BLink href="https://notebook.neelr.dev/stories/education">school</BLink> take away from your <BLink href="https://notebook.neelr.dev/stories/how-to-learn">education</BLink>&quot;</i>.</Text>
+          <Text as="p" mt="10px">Interested in interacting with the &quot;real world&quot;, I became an active member of <BLink href="https://hackclub.com">HackClub</BLink>, <BLink href="https://event.codeday.org/ba">organizing</BLink> <BLink href="https://dvhacks-3.devpost.com/">many</BLink> <BLink href="https://archive.vn/Q0LyP">events</BLink> (including <BLink href="https://angelhacks.org">AngelHacks</BLink> & the <BLink href="https://summer.hackclub.com">Summer of Making</BLink>). IMO I made <BLink href="https://github.com/neelr/BackFiler">some</BLink> <BLink href="https://github.com/neelr/goJSON">cool</BLink> <BLink href="https://github.com/neelr/LeishNN">projects</BLink> <BLink href="https://github.com/neelr/flappyai">too</BLink>.</Text>
+          <Text as="p" mt="10px">Blasting off I gathered experiences—some <BLink href="https://roambee.com">crazy</BLink> <BLink href="https://fbk.eu">AI</BLink> <BLink href="https://teachaids.org">internships</BLink>, took part in <BLink href="https://notebook.neelr.dev/stories/the-hacker-zephyr.">the worlds longest (3,502 mile-long) hackathon</BLink>, and <BLink href="https://github.com/neelr/clamp">independent research on turning CO2 into fuel @ NeurIPS</BLink>! I even created <BLink href="https://nujjet.vercel.app/">my first startup</BLink> where we <BLink href="https://www.conradchallenge.org/2021-summit-awards#block-6efb5b1ca96f674c86ca">got funding</BLink>!</Text>
+          <Text as="p" mt="10px">If you find any of this interesting, or just want to talk, hit me up with an email with something resembling my name [at] this domain! I&rsquo;m trying to read more, so recommend me some books/music!</Text>
+          <Text as="p" mt="10px">Most recently caught &quot;{githubRecent.message}&quot;-ing @ <BLink href={githubRecent.url}>{githubRecent.repo}</BLink></Text>
+          <Text as="h2" mt="15px">Notebook Posts!</Text>
+          <Box sx={{ flexWrap: "wrap", display: "flex" }}>
+            {notebookFeed.map((post, i) => (
+              <Box sx={{ display: "flex", flexDirection: "column", mb: 3, width: ["100%", "45%"], px: "2%" }} key={i}>
+                <Link target={"_blank"} href={post.link}>
+                  <Text as="h3" sx={{ textDecoration: "underline" }}>{post.title}</Text>
+                  <I src={post.image} width={320} alt={post.title} />
+                  <Text sx={{ color: "text" }} as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
+                  <Text sx={{ color: "text" }} as="p">{post.tags.map((tag, i) => <span key={i}><BLink href={`https://notebook.neelr.dev/tags/${tag}`}>{`#${tag}`}</BLink>{i < post.tags.length - 1 ? " / " : ""}</span>)}</Text>
+                </Link>
+              </Box>
+            ))}
+          </Box>
+          <hr />
+          <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
+          <Text as="p"><BLink href={"https://github.com/neelr/MyWebsite"}>Source</BLink> | <BLink href={"https://neelr.netlify.app/"}>v1</BLink></Text>
+          {confetti && <Typer steps={['—Thanks for scrolling through my site!', 1000, "—Made with <3 by neelr"]} />}
+          <SpotifyBar date={date} spotifyData={spotifyData} />
+          <Box onClick={() => window.open('https://web-dit.vercel.app', '_blank', 'noopener,noreferrer')}
+            sx={{ cursor: 'pointer', width: 190, height: 190 }}>
+            <iframe
+              style={{ pointerEvents: 'none' }}
+              src="https://web-dit.vercel.app/embed.html"
+              width={190}
+              height={190}
+              frameBorder={0}
+              loading="eager"
+            />
+          </Box>
         </Box>
       </Box>
-    </Box >
+    </>
   );
 }
 
@@ -221,7 +249,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
   }
 
   let notebookRSS = await fetch('https://notebook.neelr.dev/feed_first5.json');
-  let notebookFeed: NotebookPost[] = (await notebookRSS.json()).splice(0, 4).map((item: any) => {
+  let notebookFeed: NotebookPost[] = (await notebookRSS.json()).filter((item: any) => item.image != null).splice(0, 4).map((item: any) => {
     return {
       title: item.title,
       description: item.description,
