@@ -32,7 +32,7 @@ export function SpotifyBar({
     const [isChanging, setIsChanging] = useState<boolean>(false);
     const [previousDuration, setPreviousDuration] = useState<number>(spotifyData.duration);
     const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
-    const [isStuck, setIsStuck] = useState<boolean>(false);
+    const [bottomOffset, setBottomOffset] = useState<number>(20);
 
     useEffect(() => {
         let intervalId = setInterval(() => {
@@ -71,13 +71,13 @@ export function SpotifyBar({
 
             const footerRect = footerIframe.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
+            const gap = 20;
 
-            // Check if the footer is within 20px + spotify bar height from the bottom
-            const spotifyBarHeight = 100; // approximate height
-            const threshold = 20;
+            // Distance from bottom of viewport to top of footer iframe
+            const distFromBottom = viewportHeight - footerRect.top;
 
-            // If footer top is less than viewport height - spotify bar height - threshold
-            setIsStuck(footerRect.top < viewportHeight - spotifyBarHeight - threshold);
+            // If footer is visible, push the bar up so it sits 20px above the footer
+            setBottomOffset(Math.max(20, distFromBottom + gap));
         };
 
         checkFooterProximity();
@@ -116,15 +116,15 @@ export function SpotifyBar({
             href={PROFILE}
             target="_blank"
             sx={{
-                position: isStuck ? 'absolute' : 'fixed',
-                bottom: isStuck ? 'calc(100px + 20px)' : '20px',
+                position: 'fixed',
+                bottom: `${bottomOffset}px`,
                 left: '20px',
                 width: '32px',
                 height: '32px',
                 bg: '#1DB954',
                 borderRadius: '2px',
                 display: spotifyDataS.duration > 0 ? 'none' : 'block',
-                transition: 'transform 0.2s ease, bottom 0.2s ease',
+                transition: 'transform 0.2s ease',
                 '&:hover': {
                     transform: 'scale(1.1)',
                 },
@@ -157,15 +157,14 @@ export function SpotifyBar({
     const ContentBox = () => (
         <Box
             sx={{
-                position: isStuck ? 'absolute' : 'fixed',
-                bottom: isStuck ? 'calc(100px + 20px)' : '20px',
+                position: 'fixed',
+                bottom: `${bottomOffset}px`,
                 left: '0',
                 p: 2,
                 pl: 3,
                 pr: 3,
                 bg: 'highlight',
                 visibility: spotifyDataS.duration > 0 ? 'visible' : 'hidden',
-                transition: 'bottom 0.2s ease',
                 animation: shouldAnimate && spotifyDataS.duration > 0
                     ? (isVisible ? 'slide-in 0.8s ease-in-out forwards' : 'slide-out 0.8s ease-in-out forwards')
                     : 'none',
