@@ -36,6 +36,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
+      <iframe src='https://overengineering.kognise.dev/embed/neelr' title='overengineeRING embed' width='100%' height='100' style={{ userSelect: "none" }} frameBorder='0'></iframe>
     </ThemeProvider>
   );
 }
