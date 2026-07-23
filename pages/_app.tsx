@@ -1,8 +1,8 @@
-/* eslint-disable @next/next/no-sync-scripts */
 import "../styles/globals.css"
 
 import type { AppProps } from "next/app";
 import Head from "next/head";
+import Script from "next/script";
 import { ThemeProvider } from "theme-ui"
 import { theme } from "../styles/theme";
 import Shrek from "../components/shrek";
@@ -15,7 +15,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <Analytics />
       <Head>
         <title>@neelr</title>
-        <script src='https://analytics.stacc.cc/api/script/CP5FbkTS998I'></script>
         <meta name="title" content="@neelr" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="description" content="find out a little about me!" />
@@ -35,6 +34,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="twitter:image" content="https://neelr.vercel.app/thumbnail.png" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {process.env.NODE_ENV === "production" ? (
+        <Script
+          src="https://analytics.stacc.cc/api/script/CP5FbkTS998I"
+          strategy="lazyOnload"
+        />
+      ) : null}
       <Component {...pageProps} />
       <iframe src='https://overengineering.kognise.dev/embed/neelr' title='overengineeRING embed' width='100%' height='100' style={{ userSelect: "none" }} frameBorder='0'></iframe>
     </ThemeProvider>

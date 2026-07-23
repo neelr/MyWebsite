@@ -10,10 +10,17 @@ interface Children {
     href?: string;
 }
 
-const A = (props: any) => <TLink style={{ textDecoration: "underline" }} target="_blank" {...props} />;
+const A = (props: any) => (
+    <TLink
+        style={{ textDecoration: "underline" }}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...props}
+    />
+);
 
 export default function Sidebar({ active }: { active: number }) {
-    const navigation = [["Hello!", "/"], ["Notebook", "https://notebook.neelr.dev"], ["Résume", "/resume.pdf"]]
+    const navigation = [["Hello!", "/"], ["Notebook", "https://notebook.neelr.dev"]]
     return (<>
         <Box sx={{
             borderTop: ["1px solid", 0],
