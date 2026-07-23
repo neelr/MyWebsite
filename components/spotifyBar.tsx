@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from "next/image";
 import { Link, Text, Box } from "theme-ui";
 import { Data as SpotifyData } from "../pages/api/spotify";
@@ -29,40 +29,72 @@ export function SpotifyBar({
     const [spotifyProgress, setProgress] = useState<number>(spotifyData.progress);
     const [spotifyDataS, setSpotifyDataS] = useState<SpotifyData>(spotifyData);
     const [isVisible, setIsVisible] = useState<boolean>(true);
-    const [isChanging, setIsChanging] = useState<boolean>(false);
-    const [previousDuration, setPreviousDuration] = useState<number>(spotifyData.duration);
     const [shouldAnimate, setShouldAnimate] = useState<boolean>(false);
     const [bottomOffset, setBottomOffset] = useState<number>(20);
+    const lastUpdatedAt = useRef<number>(date);
+    const previousDuration = useRef<number>(spotifyData.duration);
+    const currentSpotifyData = useRef<SpotifyData>(spotifyData);
 
     useEffect(() => {
-        let intervalId = setInterval(() => {
-            fetch("/api/spotify")
-                .then((res) => res.json())
-                .then((d: SpotifyData) => {
-                    date = Date.now();
-                    setProgress(d.progress);
+        const transitionTimers: ReturnType<typeof setTimeout>[] = [];
 
-                    if ((previousDuration > 0) !== (d.duration > 0)) {
-                        handleTransition(d);
-                    } else {
-                        setSpotifyDataS(d);
-                    }
-                    setPreviousDuration(d.duration);
-                });
-        }, 5000);
+        const updateSpotifyData = (data: SpotifyData) => {
+            currentSpotifyData.current = data;
+            setSpotifyDataS(data);
+        };
 
-        let intervalId2 = setInterval(() => {
-            let futureProgress = spotifyDataS.progress + (Date.now() - date);
-            if (spotifyDataS.playing && !(spotifyDataS.duration <= futureProgress)) {
+        const pollSpotify = async () => {
+            try {
+                const response = await fetch("/api/spotify");
+                if (!response.ok) return;
+
+                const data = await response.json() as SpotifyData;
+                const availabilityChanged =
+                    (previousDuration.current > 0) !== (data.duration > 0);
+
+                lastUpdatedAt.current = Date.now();
+                previousDuration.current = data.duration;
+                setProgress(data.progress);
+
+                if (!availabilityChanged) {
+                    updateSpotifyData(data);
+                    return;
+                }
+
+                setIsVisible(false);
+                setShouldAnimate(true);
+
+                transitionTimers.push(setTimeout(() => {
+                    updateSpotifyData(data);
+                    setIsVisible(true);
+
+                    transitionTimers.push(setTimeout(() => {
+                        setShouldAnimate(false);
+                    }, 800));
+                }, 800));
+            } catch {
+                // Keep the last successful state during a transient network error.
+            }
+        };
+
+        void pollSpotify();
+        const pollInterval = setInterval(pollSpotify, 5000);
+        const progressInterval = setInterval(() => {
+            const data = currentSpotifyData.current;
+            const futureProgress =
+                data.progress + (Date.now() - lastUpdatedAt.current);
+
+            if (data.playing && futureProgress < data.duration) {
                 setProgress(futureProgress);
             }
         }, 1000);
 
         return () => {
-            clearInterval(intervalId);
-            clearInterval(intervalId2);
+            clearInterval(pollInterval);
+            clearInterval(progressInterval);
+            transitionTimers.forEach(clearTimeout);
         };
-    }, [previousDuration, date, spotifyDataS]);
+    }, []);
 
     useEffect(() => {
         const checkFooterProximity = () => {
@@ -90,31 +122,13 @@ export function SpotifyBar({
         };
     }, []);
 
-    const handleTransition = (newData: SpotifyData): void => {
-        if ((spotifyDataS.duration > 0) !== (newData.duration > 0)) {
-            setIsChanging(true);
-            setIsVisible(false);
-            setShouldAnimate(true);
-
-            setTimeout(() => {
-                setSpotifyDataS(newData);
-                setIsVisible(true);
-
-                setTimeout(() => {
-                    setIsChanging(false);
-                    setShouldAnimate(false);
-                }, 800);
-            }, 800);
-        } else {
-            setSpotifyDataS(newData);
-        }
-    };
-
     // Green Square Icon Component
     const IconBox = () => (
         <Link
             href={PROFILE}
             target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open Neel's Spotify profile"
             sx={{
                 position: 'fixed',
                 bottom: `${bottomOffset}px`,
@@ -189,7 +203,13 @@ export function SpotifyBar({
             }}
         >
             <Text as="p">
-                <Link href={PROFILE}>neelr</Link> listening on {spotifyDataS.device.name}
+                <Link
+                    href={PROFILE}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    neelr
+                </Link>{" "}listening on {spotifyDataS.device.name}
                 {spotifyDataS.playlistName ? (
                     <span>
                         {" "}to{" "}
@@ -210,12 +230,14 @@ export function SpotifyBar({
                 sx={{ display: "flex", flexDirection: "column" }}
             >
                 <Box sx={{ display: "flex" }}>
-                    <Image
-                        src={spotifyDataS.albumArt}
-                        width={40}
-                        height={40}
-                        alt={spotifyDataS.album}
-                    />
+                    {spotifyDataS.albumArt ? (
+                        <Image
+                            src={spotifyDataS.albumArt}
+                            width={40}
+                            height={40}
+                            alt={spotifyDataS.album}
+                        />
+                    ) : null}
                     <Text
                         my="auto"
                         mx="10px"
