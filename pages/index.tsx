@@ -10,7 +10,20 @@ import { ReactTypical as Typer } from '@deadcoder0904/react-typical';
 import { useScroll } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const BLink = (props: any) => <Link style={{ textDecoration: "underline" }} sx={{ ":visited": { ":hover": { color: "grayDark" }, color: "gray" } }} target="_blank" {...props} />;
+const BLink = (props: any) => (
+  <Link
+    style={{ textDecoration: "underline" }}
+    sx={{ ":visited": { ":hover": { color: "grayDark" }, color: "gray" } }}
+    target="_blank"
+    rel="noopener noreferrer"
+    {...props}
+  />
+);
+
+const formatNotebookDate = (pubDate: string): string =>
+  new Intl.DateTimeFormat("en-US", { timeZone: "America/Los_Angeles" }).format(
+    new Date(pubDate)
+  );
 
 type GithubRecentCommitData = {
   sha: string;
@@ -18,6 +31,27 @@ type GithubRecentCommitData = {
   date: string;
   url: string;
   repo: string;
+}
+
+type GithubPushEvent = {
+  type: string;
+  created_at: string;
+  repo?: {
+    name?: string;
+  };
+  payload?: {
+    head?: string;
+  };
+}
+
+type GithubCommitResponse = {
+  sha?: string;
+  commit?: {
+    message?: string;
+    author?: {
+      date?: string;
+    };
+  };
 }
 
 type NotebookPost = {
@@ -29,6 +63,64 @@ type NotebookPost = {
   tags: string[];
   image: string;
 }
+
+const githubFallback: GithubRecentCommitData = {
+  repo: "neelr/MyWebsite",
+  url: "https://github.com/neelr/MyWebsite",
+  message: "No recent public commits found",
+  date: "",
+  sha: ""
+};
+
+const githubHeaders = {
+  Accept: "application/vnd.github+json",
+  "X-GitHub-Api-Version": "2026-03-10",
+  "User-Agent": "neelr.dev",
+};
+
+const getGithubRecentCommit = async (): Promise<GithubRecentCommitData> => {
+  try {
+    const eventsResponse = await fetch(
+      "https://api.github.com/users/neelr/events/public?per_page=30",
+      { headers: githubHeaders }
+    );
+    if (!eventsResponse.ok) return githubFallback;
+
+    const events = await eventsResponse.json() as GithubPushEvent[];
+    const pushEvent = Array.isArray(events)
+      ? events.find(
+        (event) =>
+          event.type === "PushEvent" &&
+          event.repo?.name &&
+          event.payload?.head
+      )
+      : undefined;
+
+    const repo = pushEvent?.repo?.name;
+    const head = pushEvent?.payload?.head;
+    if (!pushEvent || !repo || !head) return githubFallback;
+
+    const commitResponse = await fetch(
+      `https://api.github.com/repos/${repo}/commits/${head}`,
+      { headers: githubHeaders }
+    );
+    if (!commitResponse.ok) return githubFallback;
+
+    const commit = await commitResponse.json() as GithubCommitResponse;
+    const message = commit.commit?.message?.split("\n")[0]?.trim();
+    if (!message) return githubFallback;
+
+    return {
+      repo,
+      url: `https://github.com/${repo}`,
+      message,
+      date: commit.commit?.author?.date ?? pushEvent.created_at,
+      sha: commit.sha ?? head,
+    };
+  } catch {
+    return githubFallback;
+  }
+};
 
 export default function Home({
   quote,
@@ -130,7 +222,7 @@ export default function Home({
             flexDirection: "column",
           }}
         >
-          <Text as="h3">Hi, I&rsquo;m Neel<Typer steps={[".", 2000, ', ...a programmer?', 2000, ', ...a philosopher?', 1700, ', ...a founder?', 2000, ', a maker.', 1000]}
+          <Text as="h3">Hi, I&rsquo;m Neel<Typer steps={[".", 2000, ', ...a programmer?', 2000, ', ...a philosopher?', 1700, ', ...a researcher?', 2000, ', a maker.', 1000]}
             wrapper="span" /></Text>
           <Text as="p" sx={{ fontStyle: "italic" }}>
             {quote.quote}
@@ -139,36 +231,41 @@ export default function Home({
             - {quote.author}
           </Text>
           <br />
+          <Text>Currently dropped out in SF and doing AI research @ <BLink href="https://si.inc">standard intelligence</BLink>! I write <BLink href="https://notebook.neelr.dev/subscribe">blogs and have a newsletter</BLink> too.</Text>
           <Text as="p" sx={{ fontStyle: "italic" }}>some cool things i&apos;ve done:</Text>
           <Text as="ul">
             <Text as="li">At 18 presented <BLink href="https://x.com/_neelr_/status/1723092152685854909?s=20">a completely independent research paper @ NeurIPS</BLink> as one of the youngest researchers (funded by <BLink href="https://marginalrevolution.com/marginalrevolution/2024/01/emergent-ventures-31st-cohort.html">an EV Grant</BLink>)</Text>
             <Text as="li">Got <BLink href="https://www.davidsongifted.org/gifted-programs/fellows-scholarship/fellows/current-and-past-fellows/2023-fellows/2023-davidson-fellow-neel-redkar/">a $25k scholarship for creating new AI algorithms</BLink> to make artificial photosynthesis & carbon capture a reality (<BLink href="https://s.neelr.dev/carbnn-research-paper">presented @ AAAI23</BLink>)</Text>
             <Text as="li">Raised $80k+ <BLink href="https://dvhacks-iii.devpost.com/">for</BLink> <BLink href="https://angelhacks.org">various</BLink> <BLink href="https://summer.hackclub.com">hackathons</BLink> while also founding & raising for <BLink href="https://nujjet.vercel.app">a startup using RL for a new approach to neuromodulation</BLink></Text>
             <Text as="li">(for math nerds I also was the lead dev at the start for <BLink href="https://sinerider.hackclub.dev">sinerider, a game supported by 3Blue1Brown, my fav</BLink>)</Text>
-            <Text as="li">Now the youngest intern @ Notion (AI)!</Text>
+            <Text as="li">Was the youngest intern at Notion AI!</Text>
           </Text>
           <br />
-          <Text as="p">Currently a sophmore at UCLA, lover of code, and avid exclamation mark (over?) user! As a <BLink href="https://notebook.neelr.dev/tags/philosophy">philosophy nerd</BLink>, I tend to <BLink href="https://s.neelr.dev/carbnn-research-paper">research the boundaries of AI</BLink>. Though a maker at heart, I am a (self) certified generalist—<BLink href="https://concussionstorywall.org/">web dev</BLink>, <BLink href="https://sinerider.com">game dev</BLink>, <BLink href="https://tmpltr.now.sh">systems</BLink>, & <BLink href="https://notebook.neelr.dev/stories/animelstm">anime</BLink>.</Text>
+          <Text as="p">I love to make cool things and create—my research helps bring this to reality! As a <BLink href="https://notebook.neelr.dev/tags/philosophy">philosophy nerd</BLink>, I tend to mix concepts and <BLink href="https://s.neelr.dev/carbnn-research-paper">research the boundaries of AI</BLink>. Though a maker at heart, I am a (self) certified generalist—<BLink href="https://concussionstorywall.org/">web dev</BLink>, <BLink href="https://sinerider.com">game dev</BLink>, <BLink href="https://tmpltr.now.sh">systems</BLink>, & <BLink href="https://notebook.neelr.dev/stories/animelstm">anime</BLink>.</Text>
           <Text as="p" mt="10px">It all started with an invitation to <BLink href="https://cloud.google.com/blog/topics/google-cloud-next/google-cloud-next19-welcome-to-the-future-of-digital-transformation">Next19</BLink>—my first (<BLink href="https://nextjs.org/conf">not</BLink> <BLink href="https://aaai.org/Conferences/AAAI-23/">last</BLink>) conference—which taught me one of my favorite ideas, <i>&quot;don&rsquo;t let <BLink href="https://notebook.neelr.dev/stories/education">school</BLink> take away from your <BLink href="https://notebook.neelr.dev/stories/how-to-learn">education</BLink>&quot;</i>.</Text>
           <Text as="p" mt="10px">Interested in interacting with the &quot;real world&quot;, I became an active member of <BLink href="https://hackclub.com">HackClub</BLink>, <BLink href="https://event.codeday.org/ba">organizing</BLink> <BLink href="https://dvhacks-3.devpost.com/">many</BLink> <BLink href="https://archive.vn/Q0LyP">events</BLink> (including <BLink href="https://angelhacks.org">AngelHacks</BLink> & the <BLink href="https://summer.hackclub.com">Summer of Making</BLink>). IMO I made <BLink href="https://github.com/neelr/BackFiler">some</BLink> <BLink href="https://github.com/neelr/goJSON">cool</BLink> <BLink href="https://github.com/neelr/LeishNN">projects</BLink> <BLink href="https://github.com/neelr/flappyai">too</BLink>.</Text>
-          <Text as="p" mt="10px">Blasting off I gathered experiences—some <BLink href="https://roambee.com">crazy</BLink> <BLink href="https://fbk.eu">AI</BLink> <BLink href="https://teachaids.org">internships</BLink>, took part in <BLink href="https://notebook.neelr.dev/stories/the-hacker-zephyr.">the worlds longest (3,502 mile-long) hackathon</BLink>, and <BLink href="https://github.com/neelr/clamp">independent research on turning CO2 into fuel @ NeurIPS</BLink>! I even created <BLink href="https://nujjet.vercel.app/">my first startup</BLink> where we <BLink href="https://www.conradchallenge.org/2021-summit-awards#block-6efb5b1ca96f674c86ca">got funding</BLink>!</Text>
+          <Text as="p" mt="10px">Blasting off I gathered experiences—some <BLink href="https://roambee.com">crazy</BLink> <BLink href="https://www.fbk.eu/en/">AI</BLink> <BLink href="https://teachaids.org">internships</BLink>, took part in <BLink href="https://notebook.neelr.dev/stories/the-hacker-zephyr-">the world&rsquo;s longest (3,502 mile-long) hackathon</BLink>, and <BLink href="https://github.com/neelr/clamp">independent research on turning CO2 into fuel @ NeurIPS</BLink>! Also hacked on <BLink href="https://nujjet.vercel.app/">some neuro things</BLink> in <BLink href="https://web.archive.org/web/20240508030333/https://www.conradchallenge.org/2021-summit-awards#block-6efb5b1ca96f674c86ca">the past</BLink>.</Text>
           <Text as="p" mt="10px">If you find any of this interesting, or just want to talk, hit me up with an email with something resembling my name [at] this domain! I&rsquo;m trying to read more, so recommend me some books/music!</Text>
-          <Text as="p" mt="10px">Most recently caught &quot;{githubRecent.message}&quot;-ing @ <BLink href={githubRecent.url}>{githubRecent.repo}</BLink></Text>
+          <Text as="p" mt="10px">Most recently caught &quot;{githubRecent.message}&quot; @ <BLink href={githubRecent.url}>{githubRecent.repo}</BLink></Text>
           <Text as="h2" mt="15px">Notebook Posts!</Text>
           <Box sx={{ flexWrap: "wrap", display: "flex" }}>
             {notebookFeed.map((post, i) => (
               <Box sx={{ display: "flex", flexDirection: "column", mb: 3, width: ["100%", "45%"], px: "2%" }} key={i}>
-                <Link target={"_blank"} href={post.link}>
+                <Link
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={post.link}
+                >
                   <Text as="h3" sx={{ textDecoration: "underline" }}>{post.title}</Text>
                   <I src={post.image} width={320} alt={post.title} />
-                  <Text sx={{ color: "text" }} as="p">{`${new Date(post.pubDate).toLocaleDateString()} ${post.description}`}</Text>
-                  <Text sx={{ color: "text" }} as="p">{post.tags.map((tag, i) => <span key={i}><BLink href={`https://notebook.neelr.dev/tags/${tag}`}>{`#${tag}`}</BLink>{i < post.tags.length - 1 ? " / " : ""}</span>)}</Text>
                 </Link>
+                <Text sx={{ color: "text" }} as="p">{`${formatNotebookDate(post.pubDate)} ${post.description}`}</Text>
+                <Text sx={{ color: "text" }} as="p">{post.tags.map((tag, i) => <span key={i}><BLink href={`https://notebook.neelr.dev/tags/${encodeURIComponent(tag)}`}>{`#${tag}`}</BLink>{i < post.tags.length - 1 ? " / " : ""}</span>)}</Text>
               </Box>
             ))}
           </Box>
           <hr />
-          <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where its {location.weather}</Text>
+          <Text sx={{ fontStyle: "italic" }}>Find me at {location.city} where it&rsquo;s {location.weather}</Text>
           <Text as="p"><BLink href={"https://github.com/neelr/MyWebsite"}>Source</BLink> | <BLink href={"https://neelr.netlify.app/"}>v1</BLink></Text>
           {confetti && <Typer steps={['—Thanks for scrolling through my site!', 1000, "—Made with <3 by neelr"]} />}
           <SpotifyBar date={date} spotifyData={spotifyData} />
@@ -181,6 +278,7 @@ export default function Home({
               height={190}
               frameBorder={0}
               loading="eager"
+              title="Interactive hippo canvas"
             />
           </Box>
         </Box>
@@ -190,6 +288,11 @@ export default function Home({
 }
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
+  ctx.res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=1800, stale-while-revalidate=86400"
+  );
+
   let quote = await getQuote();
   /*  song: string;
   artist: string;
@@ -214,39 +317,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
     }
   }
   let location = await getLocation();
-  let github = await fetch('https://api.github.com/users/neelr/events/public', { next: { revalidate: 1800 } });
-  let githubData = await github.json();
-  // filter for commits and add fallback if no data
-  githubData = Array.isArray(githubData) ? githubData.filter((event: any) => event.type === "PushEvent") : [];
-
-  let githubRecent: GithubRecentCommitData;
-  if (githubData.length > 0) {
-    try {
-      githubRecent = {
-        repo: githubData[0].repo.name,
-        url: githubData[0].repo.url.replace("https://api.github.com/repos/", "https://github.com/"),
-        message: githubData[0].payload.commits[0].message,
-        date: githubData[0].created_at,
-        sha: githubData[0].payload.commits[0].sha,
-      }
-    } catch {
-      githubRecent = {
-        repo: "neelr/MyWebsite",
-        url: "https://github.com/neelr/MyWebsite",
-        message: "No recent commits",
-        date: "",
-        sha: ""
-      }
-    }
-  } else {
-    githubRecent = {
-      repo: "neelr/MyWebsite",
-      url: "https://github.com/neelr/MyWebsite",
-      message: "No recent commits",
-      date: "",
-      sha: ""
-    }
-  }
+  let githubRecent = await getGithubRecentCommit();
 
   let notebookRSS = await fetch('https://notebook.neelr.dev/feed_first5.json');
   let notebookFeed: NotebookPost[] = (await notebookRSS.json()).filter((item: any) => item.image != null).splice(0, 4).map((item: any) => {
